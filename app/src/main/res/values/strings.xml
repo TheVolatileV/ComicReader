@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ComicReader</string>
+    <string name="title_activity_comic">ComicReader</string>
+    <string name="comic_title_label">Title</string>
+    <string name="comic_summary_label">Summary</string>
+    <string name="finished_label">Finished</string>
+    <string name="comics_title">Comics</string>
+</resources>
