@@ -17,6 +17,12 @@ public class ComicList {
     private ComicList(Context appContext) {
         mAppContext = appContext;
         mComics = new ArrayList<Comic>();
+        for (int i = 0; i < 10; i++) {
+            Comic c = new Comic();
+            c.setTitle("Comic " + i);
+            c.setFinished(i % 2 == 0);
+            mComics.add(c);
+        }
     }
 
     public static ComicList get(Context c) {
