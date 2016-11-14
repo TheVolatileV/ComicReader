@@ -5,4 +5,8 @@
     <string name="comic_summary_label">Summary</string>
     <string name="finished_label">Finished</string>
     <string name="comics_title">Comics</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="my_anime_list_title">My Anime List</string>
 </resources>
