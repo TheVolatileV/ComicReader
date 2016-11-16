@@ -12,19 +12,17 @@ import org.jsoup.select.Elements;
 
 public class MangareaderDownloader {
 
-	protected final static String SOURCE = "http://www.mangareader.net/";
+	private final static String SOURCE = "http://www.mangareader.net/";
 
 	private String mangaName;
 	private String url;
 	private String path;
 
-	public MangareaderDownloader(String mangaName, String path) throws IOException
+	public MangareaderDownloader(String mangaName) throws IOException
 	{
 		this.mangaName = mangaName;
 		this.url = SOURCE + mangaName;
-		this.path = path;
 		Manga manga = getManga();
-		//manga.download(path);
 	}
 
 	/**
