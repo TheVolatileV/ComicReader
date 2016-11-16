@@ -12,17 +12,18 @@ import org.jsoup.select.Elements;
 
 public class MangareaderDownloader {
 
-	private final static String SOURCE = "http://www.mangareader.net/";
+	protected final static String SOURCE = "http://www.mangareader.net/";
 
 	private String mangaName;
 	private String url;
 	private String path;
 
-	public MangareaderDownloader(String mangaName) throws IOException
+	public MangareaderDownloader(String mangaName, String path) throws IOException
 	{
 		this.mangaName = mangaName;
 		this.url = SOURCE + mangaName;
-		Manga manga = getManga();
+		this.path = path;
+		//manga.download(path);
 	}
 
 	/**
@@ -106,8 +107,6 @@ public class MangareaderDownloader {
 			pageImageElements = page.select("img[name=img]");
 			pages.add(new Page(mangaName, chapter, i, pageImageElements.attr("src")));
 		}
-		System.out.println("Chapter: " + chapter);
-		System.out.println(pages.toString());
 		return pages;
 	}
 }
