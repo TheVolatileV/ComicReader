@@ -35,11 +35,18 @@ public class LoginActivity extends Activity {
                 StrictMode.setThreadPolicy(policy);
                 //code to attempt logging into MAL
                 MAL mal = MAL.getInstance();
-                if (mal.authenticate(username.getText().toString(), password.getText().toString())) {
-                    Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Login Failed, Try Again!", Toast.LENGTH_SHORT).show();
+                try {
+                    if (mal.authenticate(username.getText().toString(), password.getText().toString())) {
+                        Thread.sleep(500);
+                        Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Thread.sleep(500);
+                        Toast.makeText(LoginActivity.this, "Login Failed, Try Again!", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+
             }
         });
     }
