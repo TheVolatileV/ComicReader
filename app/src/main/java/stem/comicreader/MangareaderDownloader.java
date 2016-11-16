@@ -1,5 +1,7 @@
 package stem.comicreader;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -23,7 +25,6 @@ public class MangareaderDownloader {
 		this.mangaName = mangaName;
 		this.url = SOURCE + mangaName;
 		this.path = path;
-		Manga manga = getManga();
 		//manga.download(path);
 	}
 
@@ -56,16 +57,18 @@ public class MangareaderDownloader {
 		Document chapterPage = Jsoup.connect(url).get();
 		Elements chapterElements = chapterPage.select("div[id=chapterlist] a[href*=" + mangaName + "]");
 		List<Integer> chapterList = new ArrayList<>(500);
-		Pattern p = Pattern.compile("\\d");
+		Pattern p = Pattern.compile("\\d+");
 		for(Element link : chapterElements)
 		{
 			String s = link.attr("href");
+			Log.d("chapter string", s);
 			Matcher m = p.matcher(s);
 			//finds a number of any length followed by closing a tag
 			if(m.find())
 			{
 				s = m.group();
 				chapterList.add(Integer.parseInt(s));
+				Log.d("parsed string", s);
 			}
 		}
 		return chapterList;
