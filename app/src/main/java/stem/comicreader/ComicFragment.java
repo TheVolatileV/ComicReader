@@ -65,6 +65,8 @@ public class ComicFragment extends Fragment {
         //mChaptersButton.setText(mComic.getChapters());
         //mChaptersButton.setEnabled(false);
 
+
+
         mFinishedCheckBox = (CheckBox)v.findViewById(R.id.comic_finished);
         mFinishedCheckBox.setChecked(mComic.isFinished());
         mFinishedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
