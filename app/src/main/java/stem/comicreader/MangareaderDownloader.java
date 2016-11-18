@@ -111,8 +111,6 @@ public class MangareaderDownloader {
 			pageImageElements = page.select("img[name=img]");
 			pages.add(new Page(mangaName, chapter, i, pageImageElements.attr("src")));
 		}
-		System.out.println("Chapter: " + chapter);
-		System.out.println(pages.toString());
 		return pages;
 	}
 }

@@ -1,5 +1,6 @@
 package stem.comicreader;
 
+import android.content.Intent;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +35,11 @@ public class ComicListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int pos, long id) {
         //Comic c = (Comic)(getListAdapter()).getItem(pos);
         Comic c = ((ComicAdapter)getListAdapter()).getItem(pos);
-        Log.d(TAG, c.getTitle() + " was clicked");
+        //Log.d(TAG, c.getTitle() + " was clicked");
+        //Intent i = new Intent(getActivity(), ComicActivity.class);
+        Intent i = new Intent(getActivity(), ComicPagerActivity.class);
+        i.putExtra(ComicFragment.EXTRA_COMIC_ID, c.getId());
+        startActivity(i);
     }
 
     private class ComicAdapter extends ArrayAdapter<Comic> {
@@ -59,6 +64,12 @@ public class ComicListFragment extends ListFragment {
 
             return convertView;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((ComicAdapter)getListAdapter()).notifyDataSetChanged();
     }
 
 }

@@ -24,11 +24,6 @@ public class LoginActivity extends Activity {
 
     EditText username, password;
     Button login;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,53 +50,21 @@ public class LoginActivity extends Activity {
                 StrictMode.setThreadPolicy(policy);
                 //code to attempt logging into MAL
                 MAL mal = MAL.getInstance();
-                if (mal.authenticate(username.getText().toString(), password.getText().toString())) {
-                    Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                    Intent loginActivityIntent = new Intent(LoginActivity.this, ComicListActivity.class);
-                    startActivity(loginActivityIntent);
-                } else {
-                    Toast.makeText(LoginActivity.this, "Login Failed, Try Again!", Toast.LENGTH_SHORT).show();
+                try {
+                    if (mal.authenticate(username.getText().toString(), password.getText().toString())) {
+                        Thread.sleep(500);
+                        Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                        Intent loginActivityIntent = new Intent(LoginActivity.this, ComicListActivity.class);
+                        startActivity(loginActivityIntent);
+                    } else {
+                        Thread.sleep(500);
+                        Toast.makeText(LoginActivity.this, "Login Failed, Try Again!", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+
             }
         });
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        mClient = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-    }
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Login Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        mClient.connect();
-        AppIndex.AppIndexApi.start(mClient, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(mClient, getIndexApiAction());
-        mClient.disconnect();
     }
 }

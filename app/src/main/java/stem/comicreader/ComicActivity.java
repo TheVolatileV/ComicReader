@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.UUID;
+
 public class ComicActivity extends SingleFragmentActivity {
 
 //    @Override
@@ -26,6 +28,10 @@ public class ComicActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return new ComicFragment();
+        //return new ComicFragment();
+
+        UUID comicId = (UUID)getIntent().getSerializableExtra(ComicFragment.EXTRA_COMIC_ID);
+
+        return ComicFragment.newInstance(comicId);
     }
 }
