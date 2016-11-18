@@ -12,6 +12,11 @@
         android:text="@string/comic_title_label"
         style = "?android:listSeparatorTextViewStyle"/>
 
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        />
+
     <CheckBox
         android:id="@+id/comic_finished"
         android:layout_width="match_parent"
