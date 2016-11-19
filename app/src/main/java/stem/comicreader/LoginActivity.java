@@ -1,6 +1,7 @@
 package stem.comicreader;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.os.StrictMode;
@@ -49,6 +50,8 @@ public class LoginActivity extends Activity {
     public void isValid(boolean result) {
         if (result) {
             Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+            Intent loginActivityIntent = new Intent(LoginActivity.this, ComicListActivity.class);
+            startActivity(loginActivityIntent);
         } else {
             Toast.makeText(this, "Login Failed, Try Again!", Toast.LENGTH_SHORT).show();
         }
