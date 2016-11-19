@@ -10,12 +10,27 @@ import java.util.*;
 public class Manga
 {
 	private Map<Integer, Set<Page>> manga;
-	private String name;
+	private String seriesTitle;
+    private UUID uuid;
+	private String id;
+    private String seriesSynonyms;
+    private int seriesChapters;
+    private int seriesVolumes;
+    private String seriesStartDate;
+    private String seriesEndDate;
+    private String seriesImage;
+    private int userReadChapters;
+    private int userReadVolumes;
+    private String userSeriesStartDate;
+    private String userSeriesEndDate;
+    private int userScore;
 
 
-	public Manga(String name)
+
+	public Manga(String seriesTitle)
 	{
-		this.name = name;
+        this.uuid = UUID.randomUUID();
+		this.seriesTitle = seriesTitle;
 		this.manga = new TreeMap<>();
 	}
 
@@ -33,9 +48,9 @@ public class Manga
 		}
 	}
 
-	public String getName()
+	public String getSeriesTitle()
 	{
-		return name;
+		return seriesTitle;
 	}
 
 	public Map<Integer, Set<Page>> getManga() {
@@ -73,4 +88,107 @@ public class Manga
 		}
 		return s;
 	}
+
+    public int getUserScore() {
+        return userScore;
+    }
+
+    public void setUserScore(int userScore) {
+        this.userScore = userScore;
+    }
+
+    public String getUserSeriesEndDate() {
+        return userSeriesEndDate;
+    }
+
+    public void setUserSeriesEndDate(String userSeriesEndDate) {
+        this.userSeriesEndDate = userSeriesEndDate;
+    }
+
+    public int getUserReadVolumes() {
+        return userReadVolumes;
+    }
+
+    public void setUserReadVolumes(int userReadVolumes) {
+        this.userReadVolumes = userReadVolumes;
+    }
+
+    public String getUserSeriesStartDate() {
+        return userSeriesStartDate;
+    }
+
+    public void setUserSeriesStartDate(String userSeriesStartDate) {
+        this.userSeriesStartDate = userSeriesStartDate;
+    }
+
+    public String getSeriesSynonyms() {
+        return seriesSynonyms;
+    }
+
+    public void setSeriesSynonyms(String seriesSynonyms) {
+        this.seriesSynonyms = seriesSynonyms;
+    }
+
+    public int getSeriesChapters() {
+        return seriesChapters;
+    }
+
+    public void setSeriesChapters(int seriesChapters) {
+        this.seriesChapters = seriesChapters;
+    }
+
+    public int getSeriesVolumes() {
+        return seriesVolumes;
+    }
+
+    public void setSeriesVolumes(int seriesVolumes) {
+        this.seriesVolumes = seriesVolumes;
+    }
+
+    public String getSeriesStartDate() {
+        return seriesStartDate;
+    }
+
+    public void setSeriesStartDate(String seriesStartDate) {
+        this.seriesStartDate = seriesStartDate;
+    }
+
+    public String getSeriesEndDate() {
+        return seriesEndDate;
+    }
+
+    public void setSeriesEndDate(String seriesEndDate) {
+        this.seriesEndDate = seriesEndDate;
+    }
+
+    public String getSeriesImage() {
+        return seriesImage;
+    }
+
+    public void setSeriesImage(String seriesImage) {
+        this.seriesImage = seriesImage;
+    }
+
+    public int getUserReadChapters() {
+        return userReadChapters;
+    }
+
+    public void setUserReadChapters(int userReadChapters) {
+        this.userReadChapters = userReadChapters;
+    }
+
+    public void setSeriesTitle(String seriesTitle) {
+        this.seriesTitle = seriesTitle;
+    }
+
+    public String getIdD() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    public UUID getUuid() {
+        return uuid;
+    }
 }

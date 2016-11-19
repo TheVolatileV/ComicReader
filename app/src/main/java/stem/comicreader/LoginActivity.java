@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,11 +18,15 @@ public class LoginActivity extends Activity {
 
     EditText username, password;
     Button login;
+    private static LoginActivity loginActivity;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        loginActivity = this;
 
         login = (Button)findViewById(R.id.login_button);
         username = (EditText)findViewById(R.id.login_username);
@@ -35,19 +40,24 @@ public class LoginActivity extends Activity {
                 StrictMode.setThreadPolicy(policy);
                 //code to attempt logging into MAL
                 MAL mal = MAL.getInstance();
-                try {
-                    if (mal.authenticate(username.getText().toString(), password.getText().toString())) {
-                        Thread.sleep(500);
-                        Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Thread.sleep(500);
-                        Toast.makeText(LoginActivity.this, "Login Failed, Try Again!", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if (mal.userpassIsValid) {
+                    Log.d("userpass", "before calling is true");
+                } else {
+                    Log.d("userpass", "before calling is false");
                 }
+                mal.authenticate(username.getText().toString(), password.getText().toString());
+                if (mal.userpassIsValid) {
+                    Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Login Failed, Try Again!", Toast.LENGTH_SHORT).show();
+                }
+                mal.getUserMangaList();
 
             }
         });
+    }
+
+    public static LoginActivity getLoginActivity() {
+        return loginActivity;
     }
 }
