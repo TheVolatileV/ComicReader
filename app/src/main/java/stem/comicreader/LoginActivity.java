@@ -40,23 +40,19 @@ public class LoginActivity extends Activity {
                 StrictMode.setThreadPolicy(policy);
                 //code to attempt logging into MAL
                 MAL mal = MAL.getInstance();
-                if (mal.userpassIsValid) {
-                    Log.d("userpass", "before calling is true");
-                } else {
-                    Log.d("userpass", "before calling is false");
-                }
                 mal.authenticate(username.getText().toString(), password.getText().toString());
-                if (mal.userpassIsValid) {
-                    Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Login Failed, Try Again!", Toast.LENGTH_SHORT).show();
-                }
                 mal.getUserMangaList();
-
             }
         });
     }
 
+    public void isValid(boolean result) {
+        if (result) {
+            Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Login Failed, Try Again!", Toast.LENGTH_SHORT).show();
+        }
+    }
     public static LoginActivity getLoginActivity() {
         return loginActivity;
     }

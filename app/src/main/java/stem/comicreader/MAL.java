@@ -70,28 +70,23 @@ public class MAL { //Params, Progress, Result
         }
     }
 
-    public boolean authenticate(String username, String password) {
+    public void authenticate(String username, String password) {
         if (username.compareTo("") == 0 && password.compareTo("") == 0) {
             this.username = "testeraccount";
             this.password = "redorangeispurpl";
-            Log.d("userpass", this.username);
-            Log.d("userpass", this.password);
         }
         else {
             this.username = username;
             this.password = password;
-            Log.d("userpass", this.username);
-            Log.d("userpass", this.password);
         }
-        new ThreadedAuthenticator().execute(username, password);
-        return userpassIsValid;
+        new ThreadedAuthenticator().execute(this.username, this.password);
     }
-    private class ThreadedAuthenticator extends AsyncTask<Object, Object, Void> {
+    private class ThreadedAuthenticator extends AsyncTask<Object, Object, Boolean> {
 
         private LoginActivity loginActivity;
 
         @Override
-        protected Void doInBackground(Object... params) {
+        protected Boolean doInBackground(Object... params) {
             try {
                 if (!userpassIsValid) {
                     URL url = new URL("https://myanimelist.net/api/account/verify_credentials.xml");
@@ -102,24 +97,24 @@ public class MAL { //Params, Progress, Result
                     String userpass = params[0] + ":" + params[1];
                     encodedUserPass = "Basic "
                             + Base64.encodeToString(userpass.getBytes(), Base64.DEFAULT);
-
                     conn.setRequestProperty("Authorization", encodedUserPass);
 
                     if (conn.getResponseCode() != 200) {
-                        userpassIsValid = false;
+                        return false;
                     }
-
-                    userpassIsValid = true;
+                    return true;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
-            return null;
+            return false;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Boolean result) {
             loginActivity = LoginActivity.getLoginActivity();
+            loginActivity.isValid(result);
         }
     }
 
