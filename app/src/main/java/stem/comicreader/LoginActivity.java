@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,7 +41,6 @@ public class LoginActivity extends Activity {
                 //code to attempt logging into MAL
                 MAL mal = MAL.getInstance();
                 mal.authenticate(username.getText().toString(), password.getText().toString());
-                mal.getUserMangaList();
             }
         });
     }
@@ -50,7 +48,7 @@ public class LoginActivity extends Activity {
     public void isValid(boolean result) {
         if (result) {
             Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
-            Intent loginActivityIntent = new Intent(LoginActivity.this, ComicListActivity.class);
+            Intent loginActivityIntent = new Intent(LoginActivity.this, MangaListActivity.class);
             startActivity(loginActivityIntent);
         } else {
             Toast.makeText(this, "Login Failed, Try Again!", Toast.LENGTH_SHORT).show();

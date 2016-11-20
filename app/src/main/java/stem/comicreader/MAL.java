@@ -42,13 +42,13 @@ public class MAL { //Params, Progress, Result
     }
 
 
-    public List<Manga> getUserMangaList() {
+    public void getUserMangaList() {
         new ThreadedListGetter().execute(encodedUserPass);
-
-        return null;
     }
 
     private class ThreadedListGetter extends AsyncTask<String, Void, List<Manga>> {
+
+        private MangaList mangaList;
 
         @Override
         protected List<Manga> doInBackground(String... params) {
@@ -68,6 +68,12 @@ public class MAL { //Params, Progress, Result
             }
 
             return list;
+        }
+
+        @Override
+        protected void onPostExecute(List<Manga> result) {
+            mangaList = MangaList.getMangaList();
+            mangaList.setMangas(result);
         }
     }
 

@@ -25,6 +25,7 @@ public class Manga
     private String userSeriesStartDate;
     private String userSeriesEndDate;
     private int userScore;
+    private boolean finished;
 
 
 
@@ -62,22 +63,6 @@ public class Manga
 	public Map<Integer, Set<Page>> getManga() {
 		return manga;
 	}
-
-	/**
-	 * Downloads all chapters that are currently stored in the Map.
-	 */
-//	public void download(String path)
-//	{
-//		for(Map.Entry<Integer, Set<Page>> entry : manga.entrySet())
-//		{
-//			Integer chapter = entry.getKey();
-//			Set<Page> pages = entry.getValue();
-//			for (Page page : pages)
-//			{
-//				FileMaker.storeImageIntoFS(path, page);
-//			}
-//		}
-//	}
 
 	public String toString()
 	{
@@ -187,14 +172,20 @@ public class Manga
         this.seriesTitle = seriesTitle;
     }
 
-    public String getIdD() {
+    public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
     }
+
     public UUID getUuid() {
         return uuid;
+    }
+
+    public boolean isFinished()
+    {
+        return finished;
     }
 }
