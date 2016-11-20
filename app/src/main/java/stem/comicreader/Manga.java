@@ -11,6 +11,7 @@ public class Manga
 {
 	private Map<Integer, Set<Page>> manga;
 	private String seriesTitle;
+    private String[] altTitles;
     private UUID uuid;
 	private String id;
     private String seriesSynonyms;
@@ -27,10 +28,11 @@ public class Manga
 
 
 
-	public Manga(String seriesTitle)
+	public Manga(String seriesTitle, String[] altTitles)
 	{
         this.uuid = UUID.randomUUID();
 		this.seriesTitle = seriesTitle;
+        this.altTitles = altTitles;
 		this.manga = new TreeMap<>();
 	}
 
@@ -52,6 +54,10 @@ public class Manga
 	{
 		return seriesTitle;
 	}
+
+    public String[] getAltTitles() {
+        return altTitles;
+    }
 
 	public Map<Integer, Set<Page>> getManga() {
 		return manga;

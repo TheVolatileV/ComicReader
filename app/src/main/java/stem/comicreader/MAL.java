@@ -58,8 +58,9 @@ public class MAL { //Params, Progress, Result
                 String url = "https://myanimelist.net/malappinfo.php?u=" + username + "&status=all&type=manga";
                 Document doc = Jsoup.connect(url).get();
                 Elements elem = doc.select("series_title");
-                for (Element link : elem) {
-                    list.add(new Manga(link.text()));
+                Elements altTitles = doc.select("series_synonyms");
+                for (int i = 0; i < elem.size(); i++) {
+                    list.add(new Manga(elem.get(i).text(), altTitles.get(i).text().split(";")));
                 }
 
             } catch (Exception e) {

@@ -53,8 +53,10 @@ public class ChapterCreation extends ListActivity {
         @Override
         protected List<Integer> doInBackground(Void... params) {
             List<Integer> mdList = null;
+            List<Manga> mangaList = null;
             try {
-                MangareaderDownloader md = new MangareaderDownloader("nisekoi", "bogus");
+                mangaList = MAL.getInstance().getUserMangaList();
+                MangareaderDownloader md = new MangareaderDownloader(mangaList.get(0), "/");
                 mdList = md.getChapterList();
             } catch (IOException e) {
                 e.printStackTrace();
