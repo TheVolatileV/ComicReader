@@ -26,7 +26,7 @@ public class MangaPagerActivity extends FragmentActivity {
         mViewPager.setId(R.id.viewPager);
         setContentView(mViewPager);
 
-        mangas = MangaList.get(this).getMangas();
+        mangas = MangaList.get().getMangas();
 
         FragmentManager fm = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentPagerAdapter(fm) {
@@ -44,7 +44,7 @@ public class MangaPagerActivity extends FragmentActivity {
 
         UUID comicId = (UUID)getIntent().getSerializableExtra(MangaFragment.EXTRA_COMIC_ID);
         for (int i = 0; i < mangas.size(); i++) {
-            if (mangas.get(i).getId().equals(comicId)) {
+            if (mangas.get(i).getUuid().equals(comicId)) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

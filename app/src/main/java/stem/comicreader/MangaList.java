@@ -13,28 +13,20 @@ import java.util.UUID;
 public class MangaList
 {
     private static MangaList mangaList;
-    private Context mAppContext;
     private List<Manga> mangas;
     private MAL mal;
 
-    private MangaList(Context appContext) {
-        mal = MAL.getInstance();
-        mAppContext = appContext;
+    private MangaList() {
         mangas = new ArrayList<>();
-        mal.getUserMangaList();
     }
 
     public void setMangas(List<Manga> mangas) {
         this.mangas = mangas;
     }
 
-    public static MangaList getMangaList() {
-        return mangaList;
-    }
-
-    public static MangaList get(Context c) {
+    public static MangaList get() {
         if (mangaList == null) {
-            mangaList = new MangaList(c.getApplicationContext());
+            mangaList = new MangaList();
         }
         return mangaList;
     }

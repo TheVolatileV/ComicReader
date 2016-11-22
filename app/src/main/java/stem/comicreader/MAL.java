@@ -1,8 +1,12 @@
 package stem.comicreader;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -72,8 +76,12 @@ public class MAL { //Params, Progress, Result
 
         @Override
         protected void onPostExecute(List<Manga> result) {
-            mangaList = MangaList.getMangaList();
+            LoginActivity loginActivity = LoginActivity.getLoginActivity();
+            mangaList = MangaList.get();
             mangaList.setMangas(result);
+            LoginActivity.progressBar.setVisibility(View.GONE);
+            Intent intent = new Intent(loginActivity, MangaListActivity.class);
+            loginActivity.startActivity(intent);
         }
     }
 
@@ -121,7 +129,12 @@ public class MAL { //Params, Progress, Result
         @Override
         protected void onPostExecute(Boolean result) {
             loginActivity = LoginActivity.getLoginActivity();
-            loginActivity.isValid(result);
+            if(result) {
+                Toast.makeText(loginActivity, "Login Successful", Toast.LENGTH_SHORT).show();
+                getUserMangaList();
+            } else {
+                Toast.makeText(loginActivity, "Login Failed", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

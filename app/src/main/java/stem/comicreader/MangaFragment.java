@@ -32,10 +32,11 @@ public class MangaFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mal = MAL.getInstance();
         mangaFragment = this;
+
         //mComic = new Comic();
         //UUID comicId = (UUID)getActivity().getIntent().getSerializableExtra(EXTRA_COMIC_ID);
         UUID mangaId = (UUID)getArguments().getSerializable(EXTRA_COMIC_ID);
-        manga = MangaList.get(getActivity()).getManga(mangaId);
+        manga = MangaList.get().getManga(mangaId);
 
     }
 
@@ -45,7 +46,7 @@ public class MangaFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_comic, parent, false);
 
 
-        //mTitleField = (TextView)v.findViewById(R.id.comic_title);
+        mTitleField = (TextView)v.findViewById(R.id.comic_title);
         mTitleField.setText(manga.getSeriesTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override

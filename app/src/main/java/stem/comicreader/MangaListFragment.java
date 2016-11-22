@@ -25,7 +25,7 @@ public class MangaListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.comics_title);
-        mangas = MangaList.get(getActivity()).getMangas();
+        mangas = MangaList.get().getMangas();
 
         MangaAdapter adapter = new MangaAdapter(mangas);
         setListAdapter(adapter);

@@ -8,6 +8,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 /**
@@ -18,6 +19,7 @@ public class LoginActivity extends Activity {
 
     EditText username, password;
     Button login;
+    public static ProgressBar progressBar;
     private static LoginActivity loginActivity;
 
 
@@ -28,6 +30,8 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         loginActivity = this;
 
+        progressBar = (ProgressBar)findViewById(R.id.spinner);
+        progressBar.setVisibility(View.GONE);
         login = (Button)findViewById(R.id.login_button);
         username = (EditText)findViewById(R.id.login_username);
         username.requestFocus();
@@ -40,21 +44,14 @@ public class LoginActivity extends Activity {
                 StrictMode.setThreadPolicy(policy);
                 //code to attempt logging into MAL
                 MAL mal = MAL.getInstance();
+                progressBar.setVisibility(View.VISIBLE);
                 mal.authenticate(username.getText().toString(), password.getText().toString());
             }
         });
     }
 
-    public void isValid(boolean result) {
-        if (result) {
-            Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
-            Intent loginActivityIntent = new Intent(LoginActivity.this, MangaListActivity.class);
-            startActivity(loginActivityIntent);
-        } else {
-            Toast.makeText(this, "Login Failed, Try Again!", Toast.LENGTH_SHORT).show();
-        }
-    }
     public static LoginActivity getLoginActivity() {
         return loginActivity;
     }
+
 }
