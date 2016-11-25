@@ -3,6 +3,7 @@ package stem.comicreader;
 import android.content.Intent;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -32,13 +33,13 @@ public class MangaListFragment extends ListFragment {
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int pos, long id) {
+    public void onListItemClick(ListView l, View v, int pos, long id) { //maybe here?
         //Comic c = (Comic)(getListAdapter()).getItem(pos);
         Manga m = ((MangaAdapter)getListAdapter()).getItem(pos);
         //Log.d(TAG, c.getTitle() + " was clicked");
         //Intent i = new Intent(getActivity(), MangaActivity.class);
         Intent i = new Intent(getActivity(), MangaPagerActivity.class);
-        i.putExtra(MangaFragment.EXTRA_COMIC_ID, m.getId());
+        i.putExtra(MangaFragment.EXTRA_COMIC_ID, m.getUuid());
         startActivity(i);
     }
 
@@ -54,7 +55,6 @@ public class MangaListFragment extends ListFragment {
             }
 
             Manga m = getItem(pos);
-
             TextView titleTextView =
                     (TextView)convertView.findViewById(R.id.comic_list_item_titleTextView);
             titleTextView.setText(m.getSeriesTitle());

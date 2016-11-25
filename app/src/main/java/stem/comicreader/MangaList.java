@@ -14,7 +14,6 @@ public class MangaList
 {
     private static MangaList mangaList;
     private List<Manga> mangas;
-    private MAL mal;
 
     private MangaList() {
         mangas = new ArrayList<>();
