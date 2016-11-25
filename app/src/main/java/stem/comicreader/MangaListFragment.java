@@ -21,10 +21,12 @@ import java.util.List;
 public class MangaListFragment extends ListFragment {
     private List<Manga> mangas;
     private static final String TAG = "MangaListFragment";
+    public static MangaListFragment mangaListFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mangaListFragment = this;
         getActivity().setTitle(R.string.comics_title);
         mangas = MangaList.get().getMangas();
 
@@ -33,9 +35,11 @@ public class MangaListFragment extends ListFragment {
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int pos, long id) { //maybe here?
+    public void onListItemClick(ListView l, View v, int pos, long id) {
         //Comic c = (Comic)(getListAdapter()).getItem(pos);
+        MAL mal = MAL.getInstance();
         Manga m = ((MangaAdapter)getListAdapter()).getItem(pos);
+        mal.getMangaDetails(m);
         //Log.d(TAG, c.getTitle() + " was clicked");
         //Intent i = new Intent(getActivity(), MangaActivity.class);
         Intent i = new Intent(getActivity(), MangaPagerActivity.class);
@@ -60,7 +64,7 @@ public class MangaListFragment extends ListFragment {
             titleTextView.setText(m.getSeriesTitle());
             CheckBox finishedCheckBox =
                     (CheckBox)convertView.findViewById(R.id.comic_list_item_finishedCheckBox);
-            finishedCheckBox.setChecked(m.isFinished());
+            finishedCheckBox.setChecked(false);
 
             return convertView;
         }

@@ -10,22 +10,26 @@ import java.util.*;
 public class Manga
 {
 	private Map<Integer, Set<Page>> manga;
+    private UUID uuid;
+
 	private String seriesTitle;
     private String[] altTitles;
-    private UUID uuid;
-	private String id;
+	private String seriesId;
     private String seriesSynonyms;
     private int seriesChapters;
     private int seriesVolumes;
+    private int seriesStatus;
     private String seriesStartDate;
     private String seriesEndDate;
     private String seriesImage;
+
+    private String userId;
     private int userReadChapters;
     private int userReadVolumes;
     private String userSeriesStartDate;
     private String userSeriesEndDate;
     private int userScore;
-    private boolean finished;
+    private int userStatus;
 
 
 
@@ -88,11 +92,11 @@ public class Manga
         this.userScore = userScore;
     }
 
-    public String getUserSeriesEndDate() {
+    public String getUserEndDate() {
         return userSeriesEndDate;
     }
 
-    public void setUserSeriesEndDate(String userSeriesEndDate) {
+    public void setUserEndDate(String userSeriesEndDate) {
         this.userSeriesEndDate = userSeriesEndDate;
     }
 
@@ -104,11 +108,11 @@ public class Manga
         this.userReadVolumes = userReadVolumes;
     }
 
-    public String getUserSeriesStartDate() {
+    public String getUserStartDate() {
         return userSeriesStartDate;
     }
 
-    public void setUserSeriesStartDate(String userSeriesStartDate) {
+    public void setUserStartDate(String userSeriesStartDate) {
         this.userSeriesStartDate = userSeriesStartDate;
     }
 
@@ -136,6 +140,14 @@ public class Manga
         this.seriesVolumes = seriesVolumes;
     }
 
+    public int getSeriesStatus() {
+        return seriesStatus;
+    }
+
+    public void setSeriesStatus(int seriesStatus) {
+        this.seriesStatus = seriesStatus;
+    }
+
     public String getSeriesStartDate() {
         return seriesStartDate;
     }
@@ -160,6 +172,14 @@ public class Manga
         this.seriesImage = seriesImage;
     }
 
+    public String getUserId() {
+        return  userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public int getUserReadChapters() {
         return userReadChapters;
     }
@@ -172,20 +192,24 @@ public class Manga
         this.seriesTitle = seriesTitle;
     }
 
-    public String getId() {
-        return id;
+    public String getSeriesId() {
+        return seriesId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSeriesId(String seriesId) {
+        this.seriesId = seriesId;
+    }
+
+    public int getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(int userStatus) {
+        this.userStatus = userStatus;
     }
 
     public UUID getUuid() {
         return uuid;
     }
 
-    public boolean isFinished()
-    {
-        return finished;
-    }
 }

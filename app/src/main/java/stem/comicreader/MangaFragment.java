@@ -49,22 +49,22 @@ public class MangaFragment extends Fragment {
 
         mTitleField = (TextView)v.findViewById(R.id.comic_title);
         mTitleField.setText(manga.getSeriesTitle());
-        mTitleField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                manga.setSeriesTitle(s.toString());
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        mTitleField.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                manga.setSeriesTitle(s.toString());
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
         mChaptersButton = (Button)v.findViewById(R.id.comic_chapters);
         //mChaptersButton.setText(mComic.getChapters());
