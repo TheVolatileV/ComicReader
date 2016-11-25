@@ -42,9 +42,9 @@ public class MangaListFragment extends ListFragment {
         mal.getMangaDetails(m);
         //Log.d(TAG, c.getTitle() + " was clicked");
         //Intent i = new Intent(getActivity(), MangaActivity.class);
-        Intent i = new Intent(getActivity(), MangaPagerActivity.class);
-        i.putExtra(MangaFragment.EXTRA_COMIC_ID, m.getUuid());
-        startActivity(i);
+//        Intent i = new Intent(getActivity(), MangaPagerActivity.class);
+//        i.putExtra(MangaFragment.EXTRA_COMIC_ID, m.getUuid());
+//        startActivity(i);
     }
 
     private class MangaAdapter extends ArrayAdapter<Manga> {

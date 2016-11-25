@@ -51,11 +51,11 @@ public class MAL { //Params, Progress, Result
         new ThreadedDetailsGetter().execute(manga);
     }
 
-    private class ThreadedDetailsGetter extends AsyncTask<Manga, Void, Void>
+    private class ThreadedDetailsGetter extends AsyncTask<Manga, Void, Manga>
     {
 
         @Override
-        protected Void doInBackground(Manga... params) {
+        protected Manga doInBackground(Manga... params) {
             String TAG = "Elements";
             //DB variables
             Elements elem = userList.select("manga:has(series_title:contains(" + params[0].getSeriesTitle() + "))");
@@ -93,13 +93,15 @@ public class MAL { //Params, Progress, Result
             Log.d(TAG, "User StartDate: " + params[0].getUserStartDate());
             Log.d(TAG, "User EndDate: " + params[0].getUserEndDate());
 
-            return null;
+            return params[0];
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Manga result) {
             MangaListFragment mangaListFragment = MangaListFragment.mangaListFragment;
-
+            Intent intent = new Intent(mangaListFragment.getActivity(), MangaPagerActivity.class);
+            intent.putExtra(MangaFragment.EXTRA_COMIC_ID, result.getUuid());
+            mangaListFragment.startActivity(intent);
         }
     }
 
