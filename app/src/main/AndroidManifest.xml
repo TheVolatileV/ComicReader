@@ -17,17 +17,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ComicListActivity"
+            android:name=".MangaListActivity"
             android:label="@string/app_name">
         </activity>
-        <activity android:name=".ComicActivity">
+        <activity android:name=".MangaActivity">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".ComicPagerActivity"
+        <activity android:name=".MangaPagerActivity"
             android:label="@string/app_name"></activity>
     </application>
 

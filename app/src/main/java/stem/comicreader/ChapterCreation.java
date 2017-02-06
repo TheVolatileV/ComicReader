@@ -55,7 +55,7 @@ public class ChapterCreation extends ListActivity {
             List<Integer> mdList = null;
             List<Manga> mangaList = null;
             try {
-                mangaList = MAL.getInstance().getUserMangaList();
+                mangaList = MangaList.get().getMangas();
                 MangareaderDownloader md = new MangareaderDownloader(mangaList.get(0), "/");
                 mdList = md.getChapterList();
             } catch (IOException e) {

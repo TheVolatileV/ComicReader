@@ -12,39 +12,44 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by TAG on 11/4/2016.
  */
 
-public class ComicListFragment extends ListFragment {
-    private ArrayList<Comic> mComics;
-    private static final String TAG = "ComicListFragment";
+public class MangaListFragment extends ListFragment {
+    private List<Manga> mangas;
+    private static final String TAG = "MangaListFragment";
+    public static MangaListFragment mangaListFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mangaListFragment = this;
         getActivity().setTitle(R.string.comics_title);
-        mComics = ComicList.get(getActivity()).getComics();
+        mangas = MangaList.get().getMangas();
 
-        ComicAdapter adapter = new ComicAdapter(mComics);
+        MangaAdapter adapter = new MangaAdapter(mangas);
         setListAdapter(adapter);
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int pos, long id) {
         //Comic c = (Comic)(getListAdapter()).getItem(pos);
-        Comic c = ((ComicAdapter)getListAdapter()).getItem(pos);
+        MAL mal = MAL.getInstance();
+        Manga m = ((MangaAdapter)getListAdapter()).getItem(pos);
+        mal.getMangaDetails(m);
         //Log.d(TAG, c.getTitle() + " was clicked");
-        //Intent i = new Intent(getActivity(), ComicActivity.class);
-        Intent i = new Intent(getActivity(), ComicPagerActivity.class);
-        i.putExtra(ComicFragment.EXTRA_COMIC_ID, c.getId());
-        startActivity(i);
+        //Intent i = new Intent(getActivity(), MangaActivity.class);
+//        Intent i = new Intent(getActivity(), MangaPagerActivity.class);
+//        i.putExtra(MangaFragment.EXTRA_COMIC_ID, m.getUuid());
+//        startActivity(i);
     }
 
-    private class ComicAdapter extends ArrayAdapter<Comic> {
-        public ComicAdapter(ArrayList<Comic> comics) {
-            super(getActivity(), 0, comics);
+    private class MangaAdapter extends ArrayAdapter<Manga> {
+        public MangaAdapter(List<Manga> mangas) {
+            super(getActivity(), 0, mangas);
         }
 
         @Override
@@ -53,14 +58,13 @@ public class ComicListFragment extends ListFragment {
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_comic, null);
             }
 
-            Comic c = getItem(pos);
-
+            Manga m = getItem(pos);
             TextView titleTextView =
                     (TextView)convertView.findViewById(R.id.comic_list_item_titleTextView);
-            titleTextView.setText(c.getTitle());
+            titleTextView.setText(m.getSeriesTitle());
             CheckBox finishedCheckBox =
                     (CheckBox)convertView.findViewById(R.id.comic_list_item_finishedCheckBox);
-            finishedCheckBox.setChecked(c.isFinished());
+            finishedCheckBox.setChecked(false);
 
             return convertView;
         }
@@ -69,7 +73,7 @@ public class ComicListFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((ComicAdapter)getListAdapter()).notifyDataSetChanged();
+        ((MangaAdapter)getListAdapter()).notifyDataSetChanged();
     }
 
 }
