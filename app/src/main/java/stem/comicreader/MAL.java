@@ -51,6 +51,11 @@ public class MAL { //Params, Progress, Result
         new ThreadedDetailsGetter().execute(manga);
     }
 
+    
+    /**
+    * Retrieves title, id, chapters, volumes, status, start date, end date, and image from database.
+    * Also retrieves the mal id, read chapters, read volumes, user start date, user finish date, user score, and user status.
+    **/
     private class ThreadedDetailsGetter extends AsyncTask<Manga, Void, Manga>
     {
 
@@ -110,7 +115,10 @@ public class MAL { //Params, Progress, Result
     public void getUserMangaList() {
         new ThreadedListGetter().execute(encodedUserPass);
     }
-
+    
+    /**
+    *  Retrieves each manga on the user's list
+    **/
     private class ThreadedListGetter extends AsyncTask<String, Void, List<Manga>> {
 
         private MangaList mangaList;
@@ -157,6 +165,9 @@ public class MAL { //Params, Progress, Result
         }
         new ThreadedAuthenticator().execute(this.username, this.password);
     }
+    /**
+    *  Authenticates the user's provided username and password with myanimelist.com
+    **/
     private class ThreadedAuthenticator extends AsyncTask<Object, Object, Boolean> {
 
         private LoginActivity loginActivity;
