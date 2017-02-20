@@ -1,6 +1,8 @@
 package stem.comicreader;
 import java.util.*;
 
+import static android.R.id.list;
+
 /**
  * This class represents from a single chapter to the entirety of a manga.
  * For each key in the Map there exists a chapter with a set of pages.
@@ -9,7 +11,8 @@ import java.util.*;
  */
 public class Manga
 {
-	private Map<Integer, Set<Page>> manga;
+//	private Map<Integer, Set<Page>> manga;
+    private List<Chapter> chapterList;
     private UUID uuid;
 
 	private String seriesTitle;
@@ -38,22 +41,17 @@ public class Manga
         this.uuid = UUID.randomUUID();
 		this.seriesTitle = seriesTitle;
         this.altTitles = altTitles;
-		this.manga = new TreeMap<>();
+        chapterList = new ArrayList<>();
+//		this.manga = new TreeMap<>();
 	}
 
-	/**
-	 * Adds an element to the Map.
-	 *
-	 * @param chapterNum
-	 * @param pages
-	 */
-	public void add(int chapterNum, Set<Page> pages)
-	{
-		if (!manga.containsKey(chapterNum))
-		{
-			manga.put(chapterNum, pages);
-		}
-	}
+//	public void add(int chapterNum, Set<Page> pages)
+//	{
+//		if (!manga.containsKey(chapterNum))
+//		{
+//			manga.put(chapterNum, pages);
+//		}
+//	}
 
 	public String getSeriesTitle()
 	{
@@ -64,23 +62,19 @@ public class Manga
         return altTitles;
     }
 
-	public Map<Integer, Set<Page>> getManga() {
-		return manga;
-	}
-
 	public String toString()
 	{
 		String s = "";
-		for (Map.Entry<Integer, Set<Page>> entry : manga.entrySet())
-		{
-			Integer key = entry.getKey();
-			s += "Chapter: " + key + " \n";
-			Set<Page> pages = entry.getValue();
-			for (Page page : pages)
-			{
-				s += page.toString();
-			}
-		}
+//		for (Map.Entry<Integer, Set<Page>> entry : manga.entrySet())
+//		{
+//			Integer key = entry.getKey();
+//			s += "Chapter: " + key + " \n";
+//			Set<Page> pages = entry.getValue();
+//			for (Page page : pages)
+//			{
+//				s += page.toString();
+//			}
+//		}
 		return s;
 	}
 
