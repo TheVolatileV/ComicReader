@@ -1,6 +1,7 @@
 package stem.comicreader;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
@@ -13,6 +14,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,8 +73,14 @@ public class MAL { //Params, Progress, Result
             params[0].setSeriesStatus(Integer.parseInt(elem.select("series_status").text()));
             params[0].setSeriesStartDate(elem.select("series_start").text());
             params[0].setSeriesEndDate(elem.select("series_end").text());
-            params[0].setSeriesImage(elem.select("series_image").text());
-
+            URL url;
+            try {
+                url = new URL(elem.select("series_image").text());
+                params[0].setSeriesImage(BitmapFactory.decodeStream(url.openStream()));
+            } catch (Exception e)
+            {
+                Log.e(TAG, e.toString());
+            }
             //userVariables
             params[0].setUserId(elem.select("my_id").text());
             params[0].setUserReadChapters(Integer.parseInt(elem.select("my_read_chapters").text()));

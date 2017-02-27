@@ -1,4 +1,6 @@
 package stem.comicreader;
+import android.graphics.Bitmap;
+
 import java.util.*;
 
 import static android.R.id.list;
@@ -24,7 +26,7 @@ public class Manga
     private int seriesStatus;
     private String seriesStartDate;
     private String seriesEndDate;
-    private String seriesImage;
+    private Bitmap seriesImage;
 
     private String userId;
     private int userReadChapters;
@@ -158,11 +160,11 @@ public class Manga
         this.seriesEndDate = seriesEndDate;
     }
 
-    public String getSeriesImage() {
+    public Bitmap getSeriesImage() {
         return seriesImage;
     }
 
-    public void setSeriesImage(String seriesImage) {
+    public void setSeriesImage(Bitmap seriesImage) {
         this.seriesImage = seriesImage;
     }
 
