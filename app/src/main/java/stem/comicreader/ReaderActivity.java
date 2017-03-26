@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.squareup.picasso.Picasso;
+
 /**
  * The ReaderActivity program implements and application that
  * simply displays a collection of images from an Android device.
@@ -21,13 +23,19 @@ import android.widget.LinearLayout;
  */
 public class ReaderActivity extends Activity {
 
-    private static int[] mResources = {
+    public static final int[] RESOURCES = {
             R.drawable.clannad_1399758,
             R.drawable.clannad_1399759,
             R.drawable.clannad_1399760,
             R.drawable.clannad_1399761,
             R.drawable.clannad_1399762};
 
+    public static final String[] URLS = {
+            "http://i10.mangareader.net/clannad/28/clannad-1399758.jpg",
+            "http://i10.mangareader.net/clannad/28/clannad-1399759.jpg",
+            "http://i3.mangareader.net/clannad/28/clannad-1399760.jpg",
+            "http://i3.mangareader.net/clannad/28/clannad-1399761.jpg",
+            "http://i3.mangareader.net/clannad/28/clannad-1399762.jpg"};
 
     /**
      * This method is used to initialize the activity
@@ -52,7 +60,7 @@ public class ReaderActivity extends Activity {
      * @version 1.0
      * @since   2017-03-10
      */
-    class ReaderPagerAdapter extends PagerAdapter {
+    private class ReaderPagerAdapter extends PagerAdapter {
 
         Context mContext;
         LayoutInflater mLayoutInflater;
@@ -74,7 +82,7 @@ public class ReaderActivity extends Activity {
          */
         @Override
         public int getCount() {
-            return mResources.length;
+            return RESOURCES.length;
         }
 
         /**
@@ -97,7 +105,7 @@ public class ReaderActivity extends Activity {
 
             // We may simply need to replace the next two lines to ensure functionality with Picasso
             ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            imageView.setImageResource(mResources[position]);
+            imageView.setImageResource(RESOURCES[position]);
 
             container.addView(itemView);
 
