@@ -11,6 +11,10 @@ public class Chapter
     private String mangaName;
     private List<Page> pageList;
 
+    public Chapter(String mangaName)
+    {
+        this.mangaName = mangaName;
+    }
     public Chapter(String mangaName, List<Page> pageList)
     {
         this.mangaName = mangaName;

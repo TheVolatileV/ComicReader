@@ -65,6 +65,7 @@ public class MAL { //Params, Progress, Result
         @Override
         protected Manga doInBackground(Manga... params) {
             String TAG = "Elements";
+
             //DB variables
             Elements elem = userList.select("manga:has(series_title:contains(" + params[0].getSeriesTitle() + "))");
             params[0].setSeriesId(elem.select("series_mangadb_id").text());
@@ -107,6 +108,17 @@ public class MAL { //Params, Progress, Result
             Log.d(TAG, "User StartDate: " + params[0].getUserStartDate());
             Log.d(TAG, "User EndDate: " + params[0].getUserEndDate());
 
+            try {
+                MangareaderDownloader mdl = new MangareaderDownloader(params[0], "");
+                List<Integer> temp = mdl.getChapterList();
+                List<Chapter> chapterList = new ArrayList<>();
+                for (Integer i :temp) {
+                    chapterList.add(new Chapter(params[0].getSeriesTitle()));
+                }
+                params[0].setChapterList(chapterList);
+            } catch (IOException e) {
+                Log.e("IOException", "Failed to get values from hosting website.");
+            }
             return params[0];
         }
 

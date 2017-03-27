@@ -13,7 +13,15 @@ import static android.R.id.list;
  */
 public class Manga
 {
-//	private Map<Integer, Set<Page>> manga;
+    public List<Chapter> getChapterList() {
+        return chapterList;
+    }
+
+    public void setChapterList(List<Chapter> chapterList) {
+        this.chapterList = chapterList;
+    }
+
+    //	private Map<Integer, Set<Page>> manga;
     private List<Chapter> chapterList;
     private UUID uuid;
 
@@ -44,7 +52,6 @@ public class Manga
 		this.seriesTitle = seriesTitle;
         this.altTitles = altTitles;
         chapterList = new ArrayList<>();
-//		this.manga = new TreeMap<>();
 	}
 
 //	public void add(int chapterNum, Set<Page> pages)
