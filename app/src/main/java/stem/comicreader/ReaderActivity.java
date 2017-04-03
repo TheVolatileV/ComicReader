@@ -23,19 +23,13 @@ import com.squareup.picasso.Picasso;
  */
 public class ReaderActivity extends Activity {
 
-    public static final int[] RESOURCES = {
-            R.drawable.clannad_1399758,
-            R.drawable.clannad_1399759,
-            R.drawable.clannad_1399760,
-            R.drawable.clannad_1399761,
-            R.drawable.clannad_1399762};
-
     public static final String[] URLS = {
             "http://i10.mangareader.net/clannad/28/clannad-1399758.jpg",
             "http://i10.mangareader.net/clannad/28/clannad-1399759.jpg",
             "http://i3.mangareader.net/clannad/28/clannad-1399760.jpg",
             "http://i3.mangareader.net/clannad/28/clannad-1399761.jpg",
             "http://i3.mangareader.net/clannad/28/clannad-1399762.jpg"};
+
 
     /**
      * This method is used to initialize the activity
@@ -57,7 +51,7 @@ public class ReaderActivity extends Activity {
      * The ReaderPagerAdapter program populates pages inside of a ViewPager
      *
      * @author Wilton Latham
-     * @version 1.0
+     * @version 2.0
      * @since   2017-03-10
      */
     private class ReaderPagerAdapter extends PagerAdapter {
@@ -82,7 +76,7 @@ public class ReaderActivity extends Activity {
          */
         @Override
         public int getCount() {
-            return RESOURCES.length;
+            return URLS.length;
         }
 
         /**
@@ -101,15 +95,16 @@ public class ReaderActivity extends Activity {
          */
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
+            Context gContext = getApplicationContext();
 
-            // We may simply need to replace the next two lines to ensure functionality with Picasso
-            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            imageView.setImageResource(RESOURCES[position]);
+            // We may simply need to replace the next two lines to ensure functionality with Picasso4
+            ImageView imageView = new ImageView(ReaderActivity.this);
+            Picasso.with(gContext).load(URLS[position]).fit()
+                    .into(imageView);
 
-            container.addView(itemView);
+            container.addView(imageView);
 
-            return itemView;
+            return imageView;
         }
 
         /**
@@ -117,7 +112,7 @@ public class ReaderActivity extends Activity {
          */
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((LinearLayout) object);
+            container.removeView((View) object);
         }
     }
 }
