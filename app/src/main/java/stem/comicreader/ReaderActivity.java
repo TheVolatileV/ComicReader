@@ -1,4 +1,4 @@
-package stem.comicreader;
+ackage stem.comicreader;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 
 /**
- * The ReaderActivity program implements and application that
+ * The ReaderActivity program implements an application that
  * simply displays a collection of images from an Android device.
  *
  * @author Wilton Latham
