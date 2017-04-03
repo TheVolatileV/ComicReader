@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 
 /**
  * The ReaderActivity program implements an application that
- * simply displays a collection of images from an Android device.
+ * simply displays a collection of images on an Android device.
  *
  * @author Wilton Latham
  * @version 2.0
