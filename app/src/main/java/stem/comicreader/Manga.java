@@ -1,5 +1,9 @@
 package stem.comicreader;
+import android.graphics.Bitmap;
+
 import java.util.*;
+
+import static android.R.id.list;
 
 /**
  * This class represents from a single chapter to the entirety of a manga.
@@ -9,7 +13,16 @@ import java.util.*;
  */
 public class Manga
 {
-	private Map<Integer, Set<Page>> manga;
+    public List<Chapter> getChapterList() {
+        return chapterList;
+    }
+
+    public void setChapterList(List<Chapter> chapterList) {
+        this.chapterList = chapterList;
+    }
+
+    //	private Map<Integer, Set<Page>> manga;
+    private List<Chapter> chapterList;
     private UUID uuid;
 
 	private String seriesTitle;
@@ -21,7 +34,7 @@ public class Manga
     private int seriesStatus;
     private String seriesStartDate;
     private String seriesEndDate;
-    private String seriesImage;
+    private Bitmap seriesImage;
 
     private String userId;
     private int userReadChapters;
@@ -38,22 +51,16 @@ public class Manga
         this.uuid = UUID.randomUUID();
 		this.seriesTitle = seriesTitle;
         this.altTitles = altTitles;
-		this.manga = new TreeMap<>();
+        chapterList = new ArrayList<>();
 	}
 
-	/**
-	 * Adds an element to the Map.
-	 *
-	 * @param chapterNum
-	 * @param pages
-	 */
-	public void add(int chapterNum, Set<Page> pages)
-	{
-		if (!manga.containsKey(chapterNum))
-		{
-			manga.put(chapterNum, pages);
-		}
-	}
+//	public void add(int chapterNum, Set<Page> pages)
+//	{
+//		if (!manga.containsKey(chapterNum))
+//		{
+//			manga.put(chapterNum, pages);
+//		}
+//	}
 
 	public String getSeriesTitle()
 	{
@@ -64,23 +71,19 @@ public class Manga
         return altTitles;
     }
 
-	public Map<Integer, Set<Page>> getManga() {
-		return manga;
-	}
-
 	public String toString()
 	{
 		String s = "";
-		for (Map.Entry<Integer, Set<Page>> entry : manga.entrySet())
-		{
-			Integer key = entry.getKey();
-			s += "Chapter: " + key + " \n";
-			Set<Page> pages = entry.getValue();
-			for (Page page : pages)
-			{
-				s += page.toString();
-			}
-		}
+//		for (Map.Entry<Integer, Set<Page>> entry : manga.entrySet())
+//		{
+//			Integer key = entry.getKey();
+//			s += "Chapter: " + key + " \n";
+//			Set<Page> pages = entry.getValue();
+//			for (Page page : pages)
+//			{
+//				s += page.toString();
+//			}
+//		}
 		return s;
 	}
 
@@ -164,11 +167,11 @@ public class Manga
         this.seriesEndDate = seriesEndDate;
     }
 
-    public String getSeriesImage() {
+    public Bitmap getSeriesImage() {
         return seriesImage;
     }
 
-    public void setSeriesImage(String seriesImage) {
+    public void setSeriesImage(Bitmap seriesImage) {
         this.seriesImage = seriesImage;
     }
 

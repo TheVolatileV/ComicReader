@@ -13,12 +13,13 @@ import android.widget.LinearLayout;
 
 import com.squareup.picasso.Picasso;
 
+
 /**
  * The ReaderActivity program implements and application that
  * simply displays a collection of images from an Android device.
  *
  * @author Wilton Latham
- * @version 0.9
+ * @version 2.0
  * @since   2017-03-10
  */
 public class ReaderActivity extends Activity {
@@ -29,6 +30,7 @@ public class ReaderActivity extends Activity {
             "http://i3.mangareader.net/clannad/28/clannad-1399760.jpg",
             "http://i3.mangareader.net/clannad/28/clannad-1399761.jpg",
             "http://i3.mangareader.net/clannad/28/clannad-1399762.jpg"};
+
 
 
     /**
@@ -56,6 +58,7 @@ public class ReaderActivity extends Activity {
      */
     private class ReaderPagerAdapter extends PagerAdapter {
 
+
         Context mContext;
         LayoutInflater mLayoutInflater;
 
@@ -77,6 +80,7 @@ public class ReaderActivity extends Activity {
         @Override
         public int getCount() {
             return URLS.length;
+
         }
 
         /**
@@ -105,6 +109,7 @@ public class ReaderActivity extends Activity {
             container.addView(imageView);
 
             return imageView;
+
         }
 
         /**
@@ -113,6 +118,7 @@ public class ReaderActivity extends Activity {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
+
         }
     }
 }

@@ -1,6 +1,7 @@
 package stem.comicreader;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
@@ -13,6 +14,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +65,7 @@ public class MAL { //Params, Progress, Result
         @Override
         protected Manga doInBackground(Manga... params) {
             String TAG = "Elements";
+
             //DB variables
             Elements elem = userList.select("manga:has(series_title:contains(" + params[0].getSeriesTitle() + "))");
             params[0].setSeriesId(elem.select("series_mangadb_id").text());
@@ -70,8 +74,14 @@ public class MAL { //Params, Progress, Result
             params[0].setSeriesStatus(Integer.parseInt(elem.select("series_status").text()));
             params[0].setSeriesStartDate(elem.select("series_start").text());
             params[0].setSeriesEndDate(elem.select("series_end").text());
-            params[0].setSeriesImage(elem.select("series_image").text());
-
+            URL url;
+            try {
+                url = new URL(elem.select("series_image").text());
+                params[0].setSeriesImage(BitmapFactory.decodeStream(url.openStream()));
+            } catch (Exception e)
+            {
+                Log.e(TAG, e.toString());
+            }
             //userVariables
             params[0].setUserId(elem.select("my_id").text());
             params[0].setUserReadChapters(Integer.parseInt(elem.select("my_read_chapters").text()));
@@ -98,6 +108,17 @@ public class MAL { //Params, Progress, Result
             Log.d(TAG, "User StartDate: " + params[0].getUserStartDate());
             Log.d(TAG, "User EndDate: " + params[0].getUserEndDate());
 
+            try {
+                MangareaderDownloader mdl = new MangareaderDownloader(params[0], "");
+                List<Integer> temp = mdl.getChapterList();
+                List<Chapter> chapterList = new ArrayList<>();
+                for (Integer i :temp) {
+                    chapterList.add(new Chapter(params[0].getSeriesTitle()));
+                }
+                params[0].setChapterList(chapterList);
+            } catch (IOException e) {
+                Log.e("IOException", "Failed to get values from hosting website.");
+            }
             return params[0];
         }
 
