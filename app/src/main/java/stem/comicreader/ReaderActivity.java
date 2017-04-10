@@ -1,4 +1,4 @@
-ackage stem.comicreader;
+package stem.comicreader;
 
 import android.app.Activity;
 import android.content.Context;
