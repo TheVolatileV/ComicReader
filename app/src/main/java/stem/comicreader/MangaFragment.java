@@ -2,17 +2,19 @@ package stem.comicreader;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.UUID;
+import static stem.comicreader.MangaFragment.UserStatusCodes.COMPLETED;
+import static stem.comicreader.MangaFragment.UserStatusCodes.DROPPED;
+import static stem.comicreader.MangaFragment.UserStatusCodes.INVALID;
+import static stem.comicreader.MangaFragment.UserStatusCodes.ON_HOLD;
+import static stem.comicreader.MangaFragment.UserStatusCodes.PLAN_TO_READ;
+import static stem.comicreader.MangaFragment.UserStatusCodes.READING;
 
 /**
  * Created by TAG on 11/2/2016.
@@ -23,8 +25,13 @@ public class MangaFragment extends Fragment {
 
     private Manga manga;
     private TextView mTitleField;
+    private ImageView mImageBox;
+    private TextView mDateStarted;
+    private TextView mDateFinished;
+    private TextView mStatus;
+    private TextView mChaptersRead;
+    private TextView mTotalChapters;
     private Button mChaptersButton;
-    private CheckBox mFinishedCheckBox;
     private MAL mal;
     private static MangaFragment mangaFragment;
 
@@ -46,9 +53,9 @@ public class MangaFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_comic, parent, false);
 
+        initialize(v);
 
-        mTitleField = (TextView)v.findViewById(R.id.comic_title);
-        mTitleField.setText(manga.getSeriesTitle());
+
 //        mTitleField.addTextChangedListener(new TextWatcher() {
 //            @Override
 //            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -66,7 +73,6 @@ public class MangaFragment extends Fragment {
 //            }
 //        });
 
-        mChaptersButton = (Button)v.findViewById(R.id.comic_chapters);
         //mChaptersButton.setText(mComic.getChapters());
         //mChaptersButton.setEnabled(false);
 
@@ -80,6 +86,69 @@ public class MangaFragment extends Fragment {
 //        });
 
         return v;
+    }
+
+
+    /**
+     * Status codes for user
+     *  1: Reading
+     *  2: Completed
+     *  3: On-Hold
+     *  4: Dropped
+     *  6: Plan to read
+     */
+    protected enum UserStatusCodes {
+        READING("reading", 1),
+        COMPLETED("completed", 2),
+        ON_HOLD("on hold", 3),
+        DROPPED("dropped", 4),
+        PLAN_TO_READ("plan to read", 6),
+        INVALID("invalid", -1);
+
+        protected final String string;
+        protected final int code;
+
+        UserStatusCodes(String string, int code) {
+            this.string = string;
+            this.code = code;
+        }
+    }
+
+    private void initialize(View view) {
+        mTitleField = (TextView)view.findViewById(R.id.comic_title);
+        mTitleField.setText(manga.getSeriesTitle());
+        mImageBox = (ImageView)view.findViewById(R.id.comic_img);
+        mImageBox.setImageBitmap(manga.getSeriesImage());
+        mDateStarted = (TextView)view.findViewById(R.id.start_date);
+        mDateStarted.setText(manga.getUserStartDate());
+        mDateFinished = (TextView)view.findViewById(R.id.finish_date);
+        mDateFinished.setText(manga.getUserEndDate());
+        mStatus = (TextView)view.findViewById(R.id.status);
+        switch(manga.getUserStatus()) {
+            case 1:
+                mStatus.setText(READING.string);
+                break;
+            case 2:
+                mStatus.setText(COMPLETED.string);
+                break;
+            case 3:
+                mStatus.setText(ON_HOLD.string);
+                break;
+            case 4:
+                mStatus.setText(DROPPED.string);
+                break;
+            case 6:
+                mStatus.setText(PLAN_TO_READ.string);
+                break;
+            default:
+                mStatus.setText(INVALID.string);
+                break;
+        }
+        mChaptersRead = (TextView)view.findViewById(R.id.chapters_read);
+        mChaptersRead.setText(manga.getUserReadChapters());
+        mTotalChapters = (TextView)view.findViewById(R.id.total_chapters);
+        mTotalChapters.setText(manga.getSeriesChapters());
+//        mChaptersButton = (Button)view.findViewById(R.id.comic_chapters);
     }
 
     public static MangaFragment getMangaFragment() {

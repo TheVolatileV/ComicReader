@@ -65,9 +65,6 @@ public class ChapterCreation extends ListActivity {
         }
 
         protected void onPostExecute(List<Integer> mdList) {
-            try {
-                Thread.sleep(5000);
-            } catch (Exception e) {}
             ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(getListView().getContext(), android.R.layout.simple_list_item_1, mdList);
             getListView().setAdapter(adapter);
         }
