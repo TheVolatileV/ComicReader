@@ -46,12 +46,13 @@ public class MangaPagerActivity extends FragmentActivity {
         UUID comicId = (UUID)getIntent().getSerializableExtra(MangaFragment.EXTRA_COMIC_ID);
         for (int i = 0; i < mangas.size(); i++) {
             if (mangas.get(i).getUuid().equals(comicId)) {
+                //LOAD IN DATA HERE
                 mViewPager.setCurrentItem(i);
                 break;
             }
         }
 
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             public void onPageScrollStateChanged(int state){}
 
             public void onPageScrolled(int pos, float posOffset, int posOffsetPixels) {}

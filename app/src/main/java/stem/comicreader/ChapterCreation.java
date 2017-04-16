@@ -16,7 +16,8 @@ import java.util.List;
  */
 
 public class ChapterCreation extends ListActivity {
-
+    private List<Chapter> chapters;
+    public static ChapterCreation chapterCreation;
 
     public ChapterCreation() throws IOException {
     }
@@ -25,15 +26,12 @@ public class ChapterCreation extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_chapters);
-        getChapterL();
+        chapterCreation = this;
+
 
 
     }
 
-
-    public void getChapterL() {
-        new ThreadedGetChapterList().execute();
-    }
 
     //String[] ex1 = {"Label 1", "Label 2", "Label 3", "Label 4"};
 
@@ -47,7 +45,7 @@ public class ChapterCreation extends ListActivity {
     //Log.d("example1", "Test - Beginning");
     //Log.d("example2", mdList.get(i).toString());
     //}
-
+    /*
     private class ThreadedGetChapterList extends AsyncTask<Void, Void, List<Integer>> {
 
         @Override
@@ -70,5 +68,6 @@ public class ChapterCreation extends ListActivity {
         }
 
     }
+    */
 
 }
