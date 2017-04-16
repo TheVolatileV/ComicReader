@@ -1,5 +1,6 @@
 package stem.comicreader;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -115,6 +116,8 @@ public class MangaFragment extends Fragment {
     }
 
     private void initialize(View view) {
+        final MangaFragment mf = getMangaFragment();
+
         mTitleField = (TextView)view.findViewById(R.id.comic_title);
         mTitleField.setText(manga.getSeriesTitle());
         mImageBox = (ImageView)view.findViewById(R.id.comic_img);
@@ -148,7 +151,16 @@ public class MangaFragment extends Fragment {
         mChaptersRead.setText(manga.getUserReadChapters());
         mTotalChapters = (TextView)view.findViewById(R.id.total_chapters);
         mTotalChapters.setText(manga.getSeriesChapters());
-//        mChaptersButton = (Button)view.findViewById(R.id.comic_chapters);
+        mChaptersButton = (Button)view.findViewById(R.id.comic_chapters);
+        mChaptersButton.setOnClickListener(new View.OnClickListener() {
+            MAL mal = MAL.getInstance();
+            mal.getMangaChapterList();
+            Intent intent = new Intent(mf, ChapterCreation.class);
+            mf.startActivity(intent);
+        });
+
+
+
     }
 
     public static MangaFragment getMangaFragment() {
