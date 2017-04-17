@@ -46,13 +46,12 @@ public class MangaPagerActivity extends FragmentActivity {
         UUID comicId = (UUID)getIntent().getSerializableExtra(MangaFragment.EXTRA_COMIC_ID);
         for (int i = 0; i < mangas.size(); i++) {
             if (mangas.get(i).getUuid().equals(comicId)) {
-                //LOAD IN DATA HERE MAYBE???
                 mViewPager.setCurrentItem(i);
                 break;
             }
         }
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             public void onPageScrollStateChanged(int state){}
 
             public void onPageScrolled(int pos, float posOffset, int posOffsetPixels) {}
@@ -60,9 +59,6 @@ public class MangaPagerActivity extends FragmentActivity {
             public void onPageSelected(int pos) {
                 Manga manga = mangas.get(pos);
                 if (manga.getSeriesTitle() != null) {
-                    //OR HERE???
-                    MAL mal = MAL.getInstance();
-                    mal.getMangaDetails(manga);
                     setTitle(manga.getSeriesTitle());
                 }
             }

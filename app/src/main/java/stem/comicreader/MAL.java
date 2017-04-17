@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -55,7 +54,7 @@ public class MAL { //Params, Progress, Result
         new ThreadedDetailsGetter().execute(manga);
     }
 
-    
+
     /**
     * Retrieves title, id, chapters, volumes, status, start date, end date, and image from database.
     * Also retrieves the mal id, read chapters, read volumes, user start date, user finish date, user score, and user status.
@@ -132,50 +131,12 @@ public class MAL { //Params, Progress, Result
         }
     }
 
-    public void getMangaChapterList() { new ThreadedGetChapterList().execute(encodedUserPass);}
-    /*
-    private class ThreadedChapterGetter extends AsyncTask<Manga, Void, List<Chapter>> {
 
-        private Manga myManga;
-
-        protected List<Chapter> doInBackground(Manga... params) {
-            List<Integer> chapterList = new ArrayList<>();
-            MangareaderDownloader mrd = new MangareaderDownloader(, "test");
-            chapterList = params[0].getChapterList();
-
-        }
-    }
-    */
-
-    private class ThreadedGetChapterList extends AsyncTask<Manga, Void, List<Integer>> {
-
-        @Override
-        protected List<Integer> doInBackground(Void... params) {
-            List<Integer> mdList = null;
-            List<Manga> mangaList = null;
-            try {
-                mangaList = MangaList.get().getMangas();
-                MangareaderDownloader md = new MangareaderDownloader(mangaList.get(0), "/");
-                mdList = md.getChapterList();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return mdList;
-        }
-
-        protected void onPostExecute(List<Integer> mdList) {
-            ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(getListView().getContext(), android.R.layout.simple_list_item_1, mdList);
-            getListView().setAdapter(adapter);
-        }
-
-    }
-
-}
 
     public void getUserMangaList() {
         new ThreadedListGetter().execute(encodedUserPass);
     }
-    
+
     /**
     *  Retrieves each manga on the user's list
     **/
