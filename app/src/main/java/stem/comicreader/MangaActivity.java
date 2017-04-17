@@ -10,11 +10,16 @@ import java.util.UUID;
 
 public class MangaActivity extends SingleFragmentActivity {
 
+    private static MangaActivity mangaActivity;
     @Override
     protected Fragment createFragment() {
-
+        mangaActivity = this;
         UUID comicId = (UUID)getIntent().getSerializableExtra(MangaFragment.EXTRA_COMIC_ID);
 
         return MangaFragment.newInstance(comicId);
+    }
+
+    public static MangaActivity getMangaActivity() {
+        return mangaActivity;
     }
 }

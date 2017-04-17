@@ -1,5 +1,6 @@
 package stem.comicreader;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -7,21 +8,19 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
+
 
 /**
  * Singleton for interfacing with MAL.
@@ -29,7 +28,7 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by elijahhursey on 11/13/16.
  */
 
-public class MAL { //Params, Progress, Result
+public class MAL extends ListActivity{ //Params, Progress, Result
     public boolean userpassIsValid;
     private String encodedUserPass;
     private String username;
@@ -132,7 +131,7 @@ public class MAL { //Params, Progress, Result
         }
     }
 
-    public void getMangaChapterList() { new ThreadedGetChapterList().execute(encodedUserPass);}
+    public void getMangaChapterList(Manga manga) { new ThreadedGetChapterList().execute(manga);}
     /*
     private class ThreadedChapterGetter extends AsyncTask<Manga, Void, List<Chapter>> {
 
@@ -150,9 +149,9 @@ public class MAL { //Params, Progress, Result
     private class ThreadedGetChapterList extends AsyncTask<Manga, Void, List<Integer>> {
 
         @Override
-        protected List<Integer> doInBackground(Void... params) {
+        protected List<Integer> doInBackground(Manga... params) {
             List<Integer> mdList = null;
-            List<Manga> mangaList = null;
+            List<Manga> mangaList;
             try {
                 mangaList = MangaList.get().getMangas();
                 MangareaderDownloader md = new MangareaderDownloader(mangaList.get(0), "/");
@@ -163,14 +162,14 @@ public class MAL { //Params, Progress, Result
             return mdList;
         }
 
+        @Override
         protected void onPostExecute(List<Integer> mdList) {
-            ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(getListView().getContext(), android.R.layout.simple_list_item_1, mdList);
+            ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getListView().getContext(), android.R.layout.simple_list_item_1, mdList);
             getListView().setAdapter(adapter);
         }
 
     }
 
-}
 
     public void getUserMangaList() {
         new ThreadedListGetter().execute(encodedUserPass);

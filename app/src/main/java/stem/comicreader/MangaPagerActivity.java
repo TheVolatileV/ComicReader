@@ -43,9 +43,9 @@ public class MangaPagerActivity extends FragmentActivity {
             }
         });
 
-        UUID comicId = (UUID)getIntent().getSerializableExtra(MangaFragment.EXTRA_COMIC_ID);
+        UUID mangaId = (UUID)getIntent().getSerializableExtra(MangaFragment.EXTRA_COMIC_ID);
         for (int i = 0; i < mangas.size(); i++) {
-            if (mangas.get(i).getUuid().equals(comicId)) {
+            if (mangas.get(i).getUuid().equals(mangaId)) {
                 //LOAD IN DATA HERE MAYBE???
                 mViewPager.setCurrentItem(i);
                 break;

@@ -116,7 +116,6 @@ public class MangaFragment extends Fragment {
     }
 
     private void initialize(View view) {
-        final MangaFragment mf = getMangaFragment();
 
         mTitleField = (TextView)view.findViewById(R.id.comic_title);
         mTitleField.setText(manga.getSeriesTitle());
@@ -148,15 +147,21 @@ public class MangaFragment extends Fragment {
                 break;
         }
         mChaptersRead = (TextView)view.findViewById(R.id.chapters_read);
-        mChaptersRead.setText(manga.getUserReadChapters());
+        mChaptersRead.setText(manga.getUserReadChapters() + "");
         mTotalChapters = (TextView)view.findViewById(R.id.total_chapters);
-        mTotalChapters.setText(manga.getSeriesChapters());
+        mTotalChapters.setText(manga.getSeriesChapters() + "");
         mChaptersButton = (Button)view.findViewById(R.id.comic_chapters);
         mChaptersButton.setOnClickListener(new View.OnClickListener() {
-            MAL mal = MAL.getInstance();
-            mal.getMangaChapterList();
-            Intent intent = new Intent(mf, ChapterCreation.class);
-            mf.startActivity(intent);
+            @Override
+            public void onClick(View v)
+            {
+                MAL mal = MAL.getInstance();
+                mal.getMangaChapterList(manga);
+                Intent intent = new Intent(mangaFragment.getActivity(), ChapterCreation.class);
+                mangaFragment.startActivity(intent);
+            }
+
+
         });
 
 
