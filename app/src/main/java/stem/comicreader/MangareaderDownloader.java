@@ -62,14 +62,16 @@ public class MangareaderDownloader {
 	 */
 	public List<Integer> getChapterList() throws IOException
 	{
+        Log.i("MangaList", url);
 		Document chapterPage = Jsoup.connect(url).get();
 		Elements chapterElements = chapterPage.select("div[id=chapterlist] a[href*=" + this.mangaName + "]");
 		List<Integer> chapterList = new ArrayList<>(500);
 		Pattern p = Pattern.compile("\\d+");
+        Log.i("MangaList", chapterElements.toString() + " ");
 		for(Element link : chapterElements)
 		{
 			String s = link.attr("href");
-			Log.d("chapter string", s);
+			Log.i("MangaList", s);
 			Matcher m = p.matcher(s);
 			//finds a number of any length followed by closing a tag
 			if(m.find())

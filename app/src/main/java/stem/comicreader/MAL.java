@@ -125,13 +125,21 @@ public class MAL extends ListActivity{ //Params, Progress, Result
         @Override
         protected void onPostExecute(Manga result) {
             MangaListFragment mangaListFragment = MangaListFragment.mangaListFragment;
-            Intent intent = new Intent(mangaListFragment.getActivity(), MangaPagerActivity.class);
+            Intent intent = new Intent(mangaListFragment.getActivity(), MangaActivity.class);
             intent.putExtra(MangaFragment.EXTRA_COMIC_ID, result.getUuid());
             mangaListFragment.startActivity(intent);
         }
     }
 
-    public void getMangaChapterList(Manga manga) { new ThreadedGetChapterList().execute(manga);}
+    public List<Integer> getMangaChapterList(Manga manga) {
+        try {
+            return new ThreadedGetChapterList().execute(manga).get();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /*
     private class ThreadedChapterGetter extends AsyncTask<Manga, Void, List<Chapter>> {
 
@@ -150,22 +158,19 @@ public class MAL extends ListActivity{ //Params, Progress, Result
 
         @Override
         protected List<Integer> doInBackground(Manga... params) {
-            List<Integer> mdList = null;
-            List<Manga> mangaList;
+            List<Integer> temp = null;
             try {
-                mangaList = MangaList.get().getMangas();
-                MangareaderDownloader md = new MangareaderDownloader(mangaList.get(0), "/");
-                mdList = md.getChapterList();
-            } catch (IOException e) {
-                e.printStackTrace();
+                MangareaderDownloader mdl = new MangareaderDownloader(params[0], "");
+                temp = mdl.getChapterList();
+                List<Chapter> chapterList = new ArrayList<>(100);
+                for (Integer i : temp) {
+                    chapterList.add(new Chapter(params[0].getSeriesTitle()));
+                }
+                params[0].setChapterList(chapterList);
+            } catch(IOException e) {
+                Log.e("IOException", "Failed to get values from hosting website.");
             }
-            return mdList;
-        }
-
-        @Override
-        protected void onPostExecute(List<Integer> mdList) {
-            ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getListView().getContext(), android.R.layout.simple_list_item_1, mdList);
-            getListView().setAdapter(adapter);
+            return temp;
         }
 
     }
