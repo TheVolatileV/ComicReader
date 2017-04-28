@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,24 +22,19 @@ import static stem.comicreader.MangaFragment.EXTRA_COMIC_ID;
 
 public class MangaPagerActivity extends ListActivity {
 
+    List<Integer> mangaList = null;
+    ListView listView;
+    public static MangaPagerActivity mangaPagerActivity;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mangaPagerActivity = this;
         UUID mangaID = (UUID)getIntent().getSerializableExtra(EXTRA_COMIC_ID);
         Manga manga = MangaList.get().getManga(mangaID);
-        try
-        {
-            List<Integer> mangaList = new ThreadedGetChapterList().execute(manga).get();
-            //Log.i("MangaList", mangaList.toString());
-            setListAdapter(new ArrayAdapter<>(this, R.layout.fragment_chapters, mangaList));
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        ListView listView = getListView();
+        mangaList = manga.getChapterList();
+        setListAdapter(new ArrayAdapter<>(this, R.layout.fragment_chapters, mangaList));
+        listView = getListView();
         listView.setTextFilterEnabled(true);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -49,29 +45,6 @@ public class MangaPagerActivity extends ListActivity {
         });
     }
 
-    private class ThreadedGetChapterList extends AsyncTask<Manga, Void, List<Integer>>
-    {
-        @Override
-        protected List<Integer> doInBackground(Manga... params) {
-            List<Integer> temp = null;
-            try {
-                Log.i("MangaList", "I am indeed being called");
-                MangareaderDownloader mdl = new MangareaderDownloader(params[0], "");
-                temp = mdl.getChapterList();
-                Log.i("MangaList", temp.toString());
-                List<Chapter> chapterList = new ArrayList<>(100);
-                for (Integer i : temp) {
-                    Log.i("MangaList", temp.get(i).toString());
-                    chapterList.add(new Chapter(params[0].getSeriesTitle()));
-                }
-                params[0].setChapterList(chapterList);
-            } catch(IOException e) {
-                Log.e("IOException", "Failed to get values from hosting website.");
-            }
-            return temp;
-        }
-
-    }
 }
 
 

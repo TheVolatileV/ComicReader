@@ -21,6 +21,8 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static stem.comicreader.MangaFragment.EXTRA_COMIC_ID;
+
 
 /**
  * Singleton for interfacing with MAL.
@@ -28,7 +30,7 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by elijahhursey on 11/13/16.
  */
 
-public class MAL extends ListActivity{ //Params, Progress, Result
+public class MAL { //Params, Progress, Result
     public boolean userpassIsValid;
     private String encodedUserPass;
     private String username;
@@ -48,13 +50,41 @@ public class MAL extends ListActivity{ //Params, Progress, Result
         return mal;
     }
 
+    public void getMangaChapterList(Manga manga) {
+        new ThreadedGetChapterList().execute(manga);
+    }
+
+    private class ThreadedGetChapterList extends AsyncTask<Manga, Void, Void>
+    {
+        MangaFragment mangaFragment = MangaFragment.getMangaFragment();
+        Intent intent;
+        @Override
+        protected Void doInBackground(Manga... params) {
+            List<Integer> temp = null;
+            try {
+                MangareaderDownloader mdl = new MangareaderDownloader(params[0], "");
+                temp = mdl.getChapterList();
+                params[0].setChapterList(temp);
+                Log.d("ChapterList", params[0].getChapterList().toString());
+            } catch(IOException e) {
+                Log.e("IOException", "Failed to get values from hosting website.");
+            }
+
+            intent = new Intent(mangaFragment.getActivity(), MangaPagerActivity.class);
+            intent.putExtra(EXTRA_COMIC_ID, params[0].getUuid());
+            mangaFragment.startActivity(intent);
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void param) {
+        }
+    }
 
 
     public void getMangaDetails(Manga manga) {
         new ThreadedDetailsGetter().execute(manga);
     }
 
-    
     /**
     * Retrieves title, id, chapters, volumes, status, start date, end date, and image from database.
     * Also retrieves the mal id, read chapters, read volumes, user start date, user finish date, user score, and user status.
@@ -108,17 +138,17 @@ public class MAL extends ListActivity{ //Params, Progress, Result
             Log.d(TAG, "User StartDate: " + params[0].getUserStartDate());
             Log.d(TAG, "User EndDate: " + params[0].getUserEndDate());
 
-            try {
-                MangareaderDownloader mdl = new MangareaderDownloader(params[0], "");
-                List<Integer> temp = mdl.getChapterList();
-                List<Chapter> chapterList = new ArrayList<>();
-                for (Integer i :temp) {
-                    chapterList.add(new Chapter(params[0].getSeriesTitle()));
-                }
-                params[0].setChapterList(chapterList);
-            } catch (IOException e) {
-                Log.e("IOException", "Failed to get values from hosting website.");
-            }
+//            try {
+//                MangareaderDownloader mdl = new MangareaderDownloader(params[0], "");
+//                List<Integer> temp = mdl.getChapterList();
+//                List<Chapter> chapterList = new ArrayList<>();
+//                for (Integer i :temp) {
+//                    chapterList.add(new Chapter(params[0].getSeriesTitle()));
+//                }
+//                params[0].setChapterList(chapterList);
+//            } catch (IOException e) {
+//                Log.e("IOException", "Failed to get values from hosting website.");
+//            }
             return params[0];
         }
 
@@ -126,20 +156,12 @@ public class MAL extends ListActivity{ //Params, Progress, Result
         protected void onPostExecute(Manga result) {
             MangaListFragment mangaListFragment = MangaListFragment.mangaListFragment;
             Intent intent = new Intent(mangaListFragment.getActivity(), MangaActivity.class);
-            intent.putExtra(MangaFragment.EXTRA_COMIC_ID, result.getUuid());
+            intent.putExtra(EXTRA_COMIC_ID, result.getUuid());
             mangaListFragment.startActivity(intent);
         }
     }
 
-    public List<Integer> getMangaChapterList(Manga manga) {
-        try {
-            return new ThreadedGetChapterList().execute(manga).get();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
     /*
     private class ThreadedChapterGetter extends AsyncTask<Manga, Void, List<Chapter>> {
 
@@ -154,26 +176,6 @@ public class MAL extends ListActivity{ //Params, Progress, Result
     }
     */
 
-    private class ThreadedGetChapterList extends AsyncTask<Manga, Void, List<Integer>> {
-
-        @Override
-        protected List<Integer> doInBackground(Manga... params) {
-            List<Integer> temp = null;
-            try {
-                MangareaderDownloader mdl = new MangareaderDownloader(params[0], "");
-                temp = mdl.getChapterList();
-                List<Chapter> chapterList = new ArrayList<>(100);
-                for (Integer i : temp) {
-                    chapterList.add(new Chapter(params[0].getSeriesTitle()));
-                }
-                params[0].setChapterList(chapterList);
-            } catch(IOException e) {
-                Log.e("IOException", "Failed to get values from hosting website.");
-            }
-            return temp;
-        }
-
-    }
 
 
     public void getUserMangaList() {

@@ -13,16 +13,22 @@ import static android.R.id.list;
  */
 public class Manga
 {
-    public List<Chapter> getChapterList() {
-        return chapterList;
-    }
-
-    public void setChapterList(List<Chapter> chapterList) {
-        this.chapterList = chapterList;
-    }
+//    public List<Chapter> getChapterList() {
+//        return chapterList;
+//    }
+//
+//    public void setChapterList(List<Chapter> chapterList) {
+//        this.chapterList = chapterList;
+//    }
 
     //	private Map<Integer, Set<Page>> manga;
-    private List<Chapter> chapterList;
+    public void setChapterList(List<Integer> chapterList) {
+        this.chapterList = chapterList;
+    }
+    public List<Integer> getChapterList() {
+        return chapterList;
+    }
+    private List<Integer> chapterList;
     private UUID uuid;
 
 	private String seriesTitle;
@@ -215,4 +221,11 @@ public class Manga
         return uuid;
     }
 
+    public List<Integer> getChapterIntegerList() {
+        List<Integer> intList = new ArrayList<>(100);
+        for (int i = 0; i < chapterList.size(); i++) {
+            intList.add(i, i);
+        }
+        return null;
+    }
 }

@@ -155,9 +155,7 @@ public class MangaFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(mangaFragment.getActivity(), MangaPagerActivity.class);
-                intent.putExtra(EXTRA_COMIC_ID, manga.getUuid());
-                mangaFragment.startActivity(intent);
+                mal.getMangaChapterList(manga);
             }
 
 

@@ -64,21 +64,22 @@ public class MangareaderDownloader {
 	{
         Log.i("MangaList", url);
 		Document chapterPage = Jsoup.connect(url).get();
-		Elements chapterElements = chapterPage.select("div[id=chapterlist] a[href*=" + this.mangaName + "]");
+		Elements chapterElements = chapterPage.select("div[id=chapterlist] a[href]"); //a[href*=/" + this.mangaName.substring(0,mangaName.length() - 2) +"/]");
 		List<Integer> chapterList = new ArrayList<>(500);
-		Pattern p = Pattern.compile("\\d+");
+		Pattern p = Pattern.compile("\\/[0-9]+");
         Log.i("MangaList", chapterElements.toString() + " ");
 		for(Element link : chapterElements)
 		{
 			String s = link.attr("href");
-			Log.i("MangaList", s);
+			Log.i("MangaList", s + " Number");
 			Matcher m = p.matcher(s);
 			//finds a number of any length followed by closing a tag
 			if(m.find())
 			{
 				s = m.group();
+				s = s.substring(1,s.length());
+				Log.i("MangaList", s + " Parsed integer");
 				chapterList.add(Integer.parseInt(s));
-				Log.d("parsed string", s);
 			}
 		}
 		return chapterList;
