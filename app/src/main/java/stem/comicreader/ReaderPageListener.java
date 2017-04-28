@@ -1,8 +1,8 @@
 /**
  * Write a description of class ReaderPageListener here.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Tyler McFadden
+ * @version 0.1
  */
 private int currentPage;
 
