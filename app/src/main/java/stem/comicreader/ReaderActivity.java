@@ -45,7 +45,9 @@ public class ReaderActivity extends Activity {
         ReaderPagerAdapter mReaderPagerAdapter = new ReaderPagerAdapter(this);
 
         ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mReaderPagerAdapter);
+        ReaderPageListener pl = new ReaderPageListener(); 
+        pl.setOnPageChangeListener(pl);
+       mViewPager.setAdapter(mReaderPagerAdapter);`
     }
 
 
