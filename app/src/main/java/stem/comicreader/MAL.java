@@ -65,7 +65,6 @@ public class MAL { //Params, Progress, Result
                 MangareaderDownloader mdl = new MangareaderDownloader(params[0], "");
                 temp = mdl.getChapterList();
                 params[0].setChapterList(temp);
-                Log.d("ChapterList", params[0].getChapterList().toString());
             } catch(IOException e) {
                 Log.e("IOException", "Failed to get values from hosting website.");
             }
