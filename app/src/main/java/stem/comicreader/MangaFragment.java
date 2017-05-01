@@ -117,16 +117,16 @@ public class MangaFragment extends Fragment {
 
     private void initialize(View view) {
 
-        mTitleField = (TextView)view.findViewById(R.id.comic_title);
+        mTitleField = (TextView) view.findViewById(R.id.comic_title);
         mTitleField.setText(manga.getSeriesTitle());
-        mImageBox = (ImageView)view.findViewById(R.id.comic_img);
+        mImageBox = (ImageView) view.findViewById(R.id.comic_img);
         mImageBox.setImageBitmap(manga.getSeriesImage());
-        mDateStarted = (TextView)view.findViewById(R.id.start_date);
+        mDateStarted = (TextView) view.findViewById(R.id.start_date);
         mDateStarted.setText(manga.getUserStartDate());
-        mDateFinished = (TextView)view.findViewById(R.id.finish_date);
+        mDateFinished = (TextView) view.findViewById(R.id.finish_date);
         mDateFinished.setText(manga.getUserEndDate());
-        mStatus = (TextView)view.findViewById(R.id.status);
-        switch(manga.getUserStatus()) {
+        mStatus = (TextView) view.findViewById(R.id.status);
+        switch (manga.getUserStatus()) {
             case 1:
                 mStatus.setText(READING.string);
                 break;
@@ -146,24 +146,27 @@ public class MangaFragment extends Fragment {
                 mStatus.setText(INVALID.string);
                 break;
         }
-        mChaptersRead = (TextView)view.findViewById(R.id.chapters_read);
+        mChaptersRead = (TextView) view.findViewById(R.id.chapters_read);
         mChaptersRead.setText(manga.getUserReadChapters() + "");
-        mTotalChapters = (TextView)view.findViewById(R.id.total_chapters);
+        mTotalChapters = (TextView) view.findViewById(R.id.total_chapters);
         mTotalChapters.setText(manga.getSeriesChapters() + "");
-        mChaptersButton = (Button)view.findViewById(R.id.comic_chapters);
+        mChaptersButton = (Button) view.findViewById(R.id.comic_chapters);
         mChaptersButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                mal.getMangaChapterList(manga);
+            public void onClick(View v) {
+                launchProcessMenu();
+                //mal.getMangaChapterList(manga);
             }
 
 
         });
-
-
-
     }
+        public void launchProcessMenu(){
+            Intent myIntent = new Intent(getActivity(), ProcessMenu.class);
+            myIntent.putExtra("seriesTitle", manga.getSeriesTitle());
+            startActivity(myIntent);
+        }
+
 
     public static MangaFragment getMangaFragment() {
         return mangaFragment;

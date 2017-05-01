@@ -1,6 +1,9 @@
 package stem.comicreader;
 
+import android.app.ActivityManager;
 import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,28 +29,30 @@ public class MangaPagerActivity extends ListActivity {
     List<Integer> mangaList = null;
     ListView listView;
     public static MangaPagerActivity mangaPagerActivity;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mangaPagerActivity = this;
-        UUID mangaID = (UUID)getIntent().getSerializableExtra(EXTRA_COMIC_ID);
-        Manga manga = MangaList.get().getManga(mangaID);
+        UUID mangaID = (UUID) getIntent().getSerializableExtra(EXTRA_COMIC_ID);
+        final Manga manga = MangaList.get().getManga(mangaID);
         mangaList = manga.getChapterList();
         setListAdapter(new ArrayAdapter<>(this, R.layout.fragment_chapters, mangaList));
         listView = getListView();
         listView.setTextFilterEnabled(true);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                Toast.makeText(getApplicationContext(),((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent myIntent = new Intent(MangaPagerActivity.this, ReaderActivity.class);
+                myIntent.putExtra("seriesTitle", manga.getSeriesTitle());
+                myIntent.putExtra("chapterNum", listView.getItemAtPosition(position).toString());
+                startActivity(myIntent);
             }
-        });
-    }
+        }); }
+
+
 
 }
+
+
 
 
 

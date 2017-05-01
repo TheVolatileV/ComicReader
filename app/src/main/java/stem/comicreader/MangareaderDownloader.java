@@ -147,10 +147,12 @@ public class MangareaderDownloader {
 		String title = this.manga.getSeriesTitle();
 
 		while (attempts < altTitles.length) {
+
 			try {
 				String searchUrl = baseSearchUrl + "?q=" + title;
 				Element content = Jsoup.connect(searchUrl).get().body();
 				if (content.text().equals("")) { // No match found for title
+
 					if (attempts + 1 == altTitles.length) { // ran out of attempts, manga not found
 						break;
 					}

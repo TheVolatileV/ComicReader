@@ -2,6 +2,8 @@ package stem.comicreader;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -9,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 /**
@@ -19,19 +23,13 @@ import com.squareup.picasso.Picasso;
  * simply displays a collection of images on an Android device.
  *
  * @author Wilton Latham
- * @version 2.0
+ * @version 3.1
  * @since   2017-03-10
  */
 public class ReaderActivity extends Activity {
 
-    public static final String[] URLS = {
-            "http://i10.mangareader.net/clannad/28/clannad-1399758.jpg",
-            "http://i10.mangareader.net/clannad/28/clannad-1399759.jpg",
-            "http://i3.mangareader.net/clannad/28/clannad-1399760.jpg",
-            "http://i3.mangareader.net/clannad/28/clannad-1399761.jpg",
-            "http://i3.mangareader.net/clannad/28/clannad-1399762.jpg"};
-
-
+    public static ArrayList<Page> pages = new ArrayList<Page>();
+    public static AsyncTask<Void, Void, Void> mTask;
 
     /**
      * This method is used to initialize the activity
@@ -42,12 +40,82 @@ public class ReaderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader);
 
-        ReaderPagerAdapter mReaderPagerAdapter = new ReaderPagerAdapter(this);
+        Intent intent = getIntent();
+        String seriesTitle = intent.getStringExtra("seriesTitle"); //if it's a string you stored.
+        int chapterNum = intent.getIntExtra("chapterNum",0); //if it's a string you stored.
 
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mReaderPagerAdapter);
+
+        mTask = new MyAsyncTask(this, seriesTitle, chapterNum).execute(); // will return KeyVal
+
+
     }
 
+    /**
+     * This method is used to specify an action when the back button is pressed.
+     */
+    @Override
+    public void onBackPressed(){
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    /**
+     * The MyAsyncTask program prepares a separate thread for intensive operations.
+     *
+     * @author Wilton Latham
+     * @version 1.0
+     * @since   2017-04-30
+     */
+    private class MyAsyncTask extends AsyncTask<Void, Void, Void>
+    {
+        private Context mContext;
+        private String seriesTitle;
+        private int chapterNum;
+
+        /**
+         * This method is used to construct the values for this class.
+         * @param mContext reference to object that allows access to application-specific resources
+         * @param seriesTitle reference to a specific Manga title
+         * @param chapterNum reference to a specific Manga chapter number
+         */
+        MyAsyncTask(Context mContext, String seriesTitle, int chapterNum){
+            this.mContext = mContext;
+            this.seriesTitle = seriesTitle;
+            this.chapterNum = chapterNum;
+
+        }
+
+        public Context getmContext(){return this.mContext;}
+        public String getSeriesTitle(){return this.seriesTitle;}
+        public int getChapterNum(){return this.chapterNum;}
+
+        /**
+         * This method is used invoke a background thread (perform a background computation)
+         * immediately
+         */
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Manga mnga = new Manga(getSeriesTitle(),new String[]{""});
+
+                MangareaderDownloader manga = new MangareaderDownloader(mnga, "");
+
+                pages.addAll(manga.getChapterPages(getChapterNum()));
+            } catch (IOException e) {
+                // unhandled exception, something went horribly wrong
+            }
+            return null;
+        }
+        /**
+         * This method runs the UI thread after doInBackground(Void...
+         */
+        @Override
+        protected void onPostExecute(Void result) {
+            ReaderPagerAdapter mReaderPagerActivity = new ReaderPagerAdapter(getmContext());
+            ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
+            mViewPager.setAdapter(mReaderPagerActivity);
+
+        }
+    }
 
     /**
      * The ReaderPagerAdapter program populates pages inside of a ViewPager
@@ -58,10 +126,8 @@ public class ReaderActivity extends Activity {
      */
     private class ReaderPagerAdapter extends PagerAdapter {
 
-
         Context mContext;
         LayoutInflater mLayoutInflater;
-
 
         /**
          * This method is used to construct the values for this class.
@@ -79,8 +145,7 @@ public class ReaderActivity extends Activity {
          */
         @Override
         public int getCount() {
-            return URLS.length;
-
+            return pages.size();
         }
 
         /**
@@ -103,13 +168,11 @@ public class ReaderActivity extends Activity {
 
             // We may simply need to replace the next two lines to ensure functionality with Picasso4
             ImageView imageView = new ImageView(ReaderActivity.this);
-            Picasso.with(gContext).load(URLS[position]).fit()
-                    .into(imageView);
-
+            Picasso.with(gContext).load(pages.get(position).getUrl()).fit()
+                    .into(imageView);;
             container.addView(imageView);
 
             return imageView;
-
         }
 
         /**
@@ -118,7 +181,7 @@ public class ReaderActivity extends Activity {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
-
         }
     }
+
 }
