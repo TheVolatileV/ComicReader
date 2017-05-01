@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.annotation.RequiresPermission;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -49,6 +52,53 @@ public class MAL { //Params, Progress, Result
     public static MAL getInstance() {
         return mal;
     }
+
+    public void getChapterPages(Manga manga) {
+        new ThreadedPageGetter().execute(manga);
+    }
+
+    /**
+     * The MyAsyncTask program prepares a separate thread for intensive operations.
+     *
+     * @author Wilton Latham
+     * @version 1.0
+     * @since   2017-04-30
+     */
+    private class ThreadedPageGetter extends AsyncTask<Manga, Void, Void>
+    {
+        /**
+         * This method is used invoke a background thread (perform a background computation)
+         * immediately
+         */
+        @Override
+        protected Void doInBackground(Manga... params) {
+            try {
+                MangareaderDownloader mangareaderDownloader = new MangareaderDownloader(params[0], "");
+                List<Page> pages = new ArrayList<>();
+
+                pages.addAll(mangareaderDownloader.getChapterPages(params[0].getWorkingChapter()));
+                Log.d("pages", pages.toString() + "");
+                Log.d("pages", params[0].getWorkingChapter() + "");
+                params[0].addChapterPages(pages);
+
+                Intent intent = new Intent(MangaPagerActivity.mangaPagerActivity, ReaderActivity.class);
+                intent.putExtra(EXTRA_COMIC_ID, params[0].getUuid());
+                MangaPagerActivity.mangaPagerActivity.startActivity(intent);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        /**
+         * This method runs the UI thread after doInBackground(Void...
+         */
+        @Override
+        protected void onPostExecute(Void result) {
+
+        }
+    }
+
+
 
     public void getMangaChapterList(Manga manga) {
         new ThreadedGetChapterList().execute(manga);

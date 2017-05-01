@@ -41,10 +41,12 @@ public class MangaPagerActivity extends ListActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(MangaPagerActivity.this, ReaderActivity.class);
-                myIntent.putExtra("seriesTitle", manga.getSeriesTitle());
-                myIntent.putExtra("chapterNum", listView.getItemAtPosition(position).toString());
-                startActivity(myIntent);
+                manga.setWorkingChapter(position + 1);
+                MAL.getInstance().getChapterPages(manga);
+//                Intent myIntent = new Intent(MangaPagerActivity.this, ReaderActivity.class);
+//                myIntent.putExtra("seriesTitle", manga.getSeriesTitle());
+//                myIntent.putExtra("chapterNum", listView.getItemAtPosition(position).toString());
+//                startActivity(myIntent);
             }
         }); }
 

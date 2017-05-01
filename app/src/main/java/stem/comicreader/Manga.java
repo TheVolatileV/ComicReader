@@ -22,15 +22,12 @@ public class Manga
 //    }
 
     //	private Map<Integer, Set<Page>> manga;
-    public void setChapterList(List<Integer> chapterList) {
-        this.chapterList = chapterList;
-    }
-    public List<Integer> getChapterList() {
-        return chapterList;
-    }
-    private List<Integer> chapterList;
-    private UUID uuid;
 
+
+    private List<Integer> chapterList;
+    private int workingChapter;
+    private List<Page> chaptersPages;
+    private UUID uuid;
 	private String seriesTitle;
     private String[] altTitles;
 	private String seriesId;
@@ -41,7 +38,6 @@ public class Manga
     private String seriesStartDate;
     private String seriesEndDate;
     private Bitmap seriesImage;
-
     private String userId;
     private int userReadChapters;
     private int userReadVolumes;
@@ -58,6 +54,8 @@ public class Manga
 		this.seriesTitle = seriesTitle;
         this.altTitles = altTitles;
         chapterList = new ArrayList<>();
+        workingChapter = 1;
+        chaptersPages = new ArrayList<>();
 	}
 
 //	public void add(int chapterNum, Set<Page> pages)
@@ -68,6 +66,27 @@ public class Manga
 //		}
 //	}
 
+
+    public void setWorkingChapter(int workingChapter) {
+        this.workingChapter = workingChapter;
+    }
+
+    public int getWorkingChapter() {
+        return workingChapter;
+    }
+    public List<Page> getPages() {
+        return chaptersPages;
+    }
+    public void setChapterList(List<Integer> chapterList) {
+        this.chapterList = chapterList;
+    }
+    public List<Integer> getChapterList() {
+        return chapterList;
+    }
+
+    public void addChapterPages(List<Page> pages) {
+        chaptersPages = pages;
+    }
 	public String getSeriesTitle()
 	{
 		return seriesTitle;

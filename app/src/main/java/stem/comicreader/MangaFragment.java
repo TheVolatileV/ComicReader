@@ -154,18 +154,18 @@ public class MangaFragment extends Fragment {
         mChaptersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchProcessMenu();
-                //mal.getMangaChapterList(manga);
+//                launchProcessMenu();
+                mal.getMangaChapterList(manga);
             }
 
 
         });
     }
-        public void launchProcessMenu(){
-            Intent myIntent = new Intent(getActivity(), ProcessMenu.class);
-            myIntent.putExtra("seriesTitle", manga.getSeriesTitle());
-            startActivity(myIntent);
-        }
+//        public void launchProcessMenu(){
+//            Intent myIntent = new Intent(getActivity(), ProcessMenu.class);
+//            myIntent.putExtra("seriesTitle", manga.getSeriesTitle());
+//            startActivity(myIntent);
+//        }
 
 
     public static MangaFragment getMangaFragment() {

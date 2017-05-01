@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,12 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.UUID;
+
+import static stem.comicreader.MangaFragment.EXTRA_COMIC_ID;
+
 
 
 /**
@@ -39,83 +45,33 @@ public class ReaderActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader);
+        UUID mangaID = (UUID) getIntent().getSerializableExtra(EXTRA_COMIC_ID);
+        Manga manga = MangaList.get().getManga(mangaID);
+        Log.d("pages", manga.getPages().toString() + "");
+        pages = (ArrayList) manga.getPages();
 
-        Intent intent = getIntent();
-        String seriesTitle = intent.getStringExtra("seriesTitle"); //if it's a string you stored.
-        int chapterNum = intent.getIntExtra("chapterNum",0); //if it's a string you stored.
+        ReaderPagerAdapter mReaderPagerActivity = new ReaderPagerAdapter(this);
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mReaderPagerActivity);
+//        Intent intent = getIntent();
+//        String seriesTitle = intent.getStringExtra("seriesTitle"); //if it's a string you stored.
+//        int chapterNum = intent.getIntExtra("chapterNum",0); //if it's a string you stored.
 
 
-        mTask = new MyAsyncTask(this, seriesTitle, chapterNum).execute(); // will return KeyVal
+//        mTask = new MyAsyncTask(this, seriesTitle, chapterNum).execute(); // will return KeyVal
 
 
     }
 
-    /**
-     * This method is used to specify an action when the back button is pressed.
-     */
-    @Override
-    public void onBackPressed(){
-        android.os.Process.killProcess(android.os.Process.myPid());
-    }
+//    /**
+//     * This method is used to specify an action when the back button is pressed.
+//     */
+//    @Override
+//    public void onBackPressed(){
+//        android.os.Process.killProcess(android.os.Process.myPid());
+//    }
 
-    /**
-     * The MyAsyncTask program prepares a separate thread for intensive operations.
-     *
-     * @author Wilton Latham
-     * @version 1.0
-     * @since   2017-04-30
-     */
-    private class MyAsyncTask extends AsyncTask<Void, Void, Void>
-    {
-        private Context mContext;
-        private String seriesTitle;
-        private int chapterNum;
 
-        /**
-         * This method is used to construct the values for this class.
-         * @param mContext reference to object that allows access to application-specific resources
-         * @param seriesTitle reference to a specific Manga title
-         * @param chapterNum reference to a specific Manga chapter number
-         */
-        MyAsyncTask(Context mContext, String seriesTitle, int chapterNum){
-            this.mContext = mContext;
-            this.seriesTitle = seriesTitle;
-            this.chapterNum = chapterNum;
-
-        }
-
-        public Context getmContext(){return this.mContext;}
-        public String getSeriesTitle(){return this.seriesTitle;}
-        public int getChapterNum(){return this.chapterNum;}
-
-        /**
-         * This method is used invoke a background thread (perform a background computation)
-         * immediately
-         */
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                Manga mnga = new Manga(getSeriesTitle(),new String[]{""});
-
-                MangareaderDownloader manga = new MangareaderDownloader(mnga, "");
-
-                pages.addAll(manga.getChapterPages(getChapterNum()));
-            } catch (IOException e) {
-                // unhandled exception, something went horribly wrong
-            }
-            return null;
-        }
-        /**
-         * This method runs the UI thread after doInBackground(Void...
-         */
-        @Override
-        protected void onPostExecute(Void result) {
-            ReaderPagerAdapter mReaderPagerActivity = new ReaderPagerAdapter(getmContext());
-            ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
-            mViewPager.setAdapter(mReaderPagerActivity);
-
-        }
-    }
 
     /**
      * The ReaderPagerAdapter program populates pages inside of a ViewPager
