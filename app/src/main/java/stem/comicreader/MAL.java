@@ -58,11 +58,12 @@ public class MAL { //Params, Progress, Result
     }
 
     /**
-     * The MyAsyncTask program prepares a separate thread for intensive operations.
+     * The ThreadedPageGetter program prepares a separate thread for intensive operations.
      *
-     * @author Wilton Latham
+     * @author Elijah Hursey
+     * @author Wilt Latham
      * @version 1.0
-     * @since   2017-04-30
+     * @date   2017-05-2
      */
     private class ThreadedPageGetter extends AsyncTask<Manga, Void, Void>
     {
