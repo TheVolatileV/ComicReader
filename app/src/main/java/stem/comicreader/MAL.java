@@ -26,13 +26,14 @@ import javax.net.ssl.HttpsURLConnection;
 
 import static stem.comicreader.MangaFragment.EXTRA_COMIC_ID;
 
-
 /**
- * Singleton for interfacing with MAL.
+ * The MAL program implements an application that
+ * serves as a Singleton for interfacing with MAL.
  *
- * Created by elijahhursey on 11/13/16.
+ * @author Elijah Hursey
+ * @version 1.0
+ * @date   2016-11-13
  */
-
 public class MAL { //Params, Progress, Result
     public boolean userpassIsValid;
     private String encodedUserPass;
