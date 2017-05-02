@@ -53,25 +53,7 @@ public class ReaderActivity extends Activity {
         ReaderPagerAdapter mReaderPagerActivity = new ReaderPagerAdapter(this);
         ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mReaderPagerActivity);
-//        Intent intent = getIntent();
-//        String seriesTitle = intent.getStringExtra("seriesTitle"); //if it's a string you stored.
-//        int chapterNum = intent.getIntExtra("chapterNum",0); //if it's a string you stored.
-
-
-//        mTask = new MyAsyncTask(this, seriesTitle, chapterNum).execute(); // will return KeyVal
-
-
     }
-
-//    /**
-//     * This method is used to specify an action when the back button is pressed.
-//     */
-//    @Override
-//    public void onBackPressed(){
-//        android.os.Process.killProcess(android.os.Process.myPid());
-//    }
-
-
 
     /**
      * The ReaderPagerAdapter program populates pages inside of a ViewPager
