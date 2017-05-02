@@ -28,9 +28,11 @@ import static stem.comicreader.MangaFragment.EXTRA_COMIC_ID;
  * The ReaderActivity program implements an application that
  * simply displays a collection of images on an Android device.
  *
- * @author Wilton Latham
+ * @author Wilt Latham
+ * @author Elijah Hursey
+ * @author Tamarcus Garcia
  * @version 3.1
- * @since   2017-03-10
+ * @date   2017-05-02
  */
 public class ReaderActivity extends Activity {
 
